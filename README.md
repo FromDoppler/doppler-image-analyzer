@@ -1,2 +1,2 @@
-# image-moderation-tool
-Tool for image moderation
+# doppler-image-analysis-api
+Tool for image content analysis 
