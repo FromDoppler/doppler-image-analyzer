@@ -54,7 +54,7 @@ namespace Doppler.ImageAnalysisApi.Api
 
         public ResponseErrorDetails ValidationIssue { get; set; }
 
-        public static Response CreateBadRequestResponse(string errorTitle = null)
+        public static Response CreateBadRequestResponse(string? errorTitle = null)
         {
             return new Response
             {
@@ -63,7 +63,7 @@ namespace Doppler.ImageAnalysisApi.Api
             };
         }
 
-        public static Response<T> CreateBadRequestResponse<T>(string errorTitle = null)
+        public static Response<T> CreateBadRequestResponse<T>(string? errorTitle = null)
         {
             return new Response<T>
             {
@@ -98,7 +98,7 @@ namespace Doppler.ImageAnalysisApi.Api
             };
         }
 
-        public static Response CreateLockErrorResponse(string errorDetail, string title = null)
+        public static Response CreateLockErrorResponse(string errorDetail, string? title = null)
         {
             var errors = new Dictionary<string, string[]>()
             {
@@ -116,7 +116,7 @@ namespace Doppler.ImageAnalysisApi.Api
             };
         }
 
-        public static Response<T> CreateLockErrorResponse<T>(string errorDetail, string title = null)
+        public static Response<T> CreateLockErrorResponse<T>(string errorDetail, string? title = null)
         {
             var errors = new Dictionary<string, string[]>()
             {
@@ -134,7 +134,7 @@ namespace Doppler.ImageAnalysisApi.Api
             };
         }
 
-        public static Response CreateUnauthorizedResponse(string errorTitle = null)
+        public static Response CreateUnauthorizedResponse(string? errorTitle = null)
         {
             return new Response
             {
@@ -143,7 +143,7 @@ namespace Doppler.ImageAnalysisApi.Api
             };
         }
 
-        public static Response<T> CreateUnauthorizedResponse<T>(string errorTitle = null)
+        public static Response<T> CreateUnauthorizedResponse<T>(string? errorTitle = null)
         {
             return new Response<T>
             {
@@ -157,7 +157,7 @@ namespace Doppler.ImageAnalysisApi.Api
             string errorKey,
             string errorDescription,
             Exception exception,
-            string errorTitle = null)
+            string? errorTitle = null)
         {
             return new Response(statusCode)
             {
@@ -171,7 +171,7 @@ namespace Doppler.ImageAnalysisApi.Api
             string errorKey,
             string errorDescription,
             Exception exception,
-            string errorTitle = null)
+            string? errorTitle = null)
         {
             return new Response<T>(statusCode)
             {
@@ -187,7 +187,7 @@ namespace Doppler.ImageAnalysisApi.Api
                     : _errorTitlesByCode[statusCode];
         }
 
-        private static ResponseErrorDetails GetResponseErrorDetails(HttpStatusCode statusCode, string errorKey, string errorDescription, Exception ex, string errorTitle = null)
+        private static ResponseErrorDetails GetResponseErrorDetails(HttpStatusCode statusCode, string errorKey, string errorDescription, Exception ex, string? errorTitle = null)
         {
             return new ResponseErrorDetails(new Dictionary<string, string[]>
             {
@@ -200,7 +200,7 @@ namespace Doppler.ImageAnalysisApi.Api
             };
         }
 
-        private static ResponseErrorDetails GetResponseErrorDetails(HttpStatusCode statusCode, string errorTitle = null)
+        private static ResponseErrorDetails GetResponseErrorDetails(HttpStatusCode statusCode, string? errorTitle = null)
         {
             return new ResponseErrorDetails()
             {

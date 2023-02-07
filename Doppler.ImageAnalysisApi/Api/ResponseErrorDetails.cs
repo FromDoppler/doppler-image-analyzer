@@ -28,6 +28,6 @@ namespace Doppler.ImageAnalysisApi.Api
         /// The intention of this property is to easily show error exception details in a separate field not consumed by the UI
         /// Developers could check the browser console logs to see the errors details.
         /// </summary>
-        public string ExceptionMessage { get; set; }
+        public string? ExceptionMessage { get; set; }
     }
 }

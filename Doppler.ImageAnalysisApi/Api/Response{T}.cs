@@ -18,6 +18,6 @@ namespace Doppler.ImageAnalysisApi.Api
         {
         }
 
-        public T Payload { get; set; }
+        public T? Payload { get; set; }
     }
 }
