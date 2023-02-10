@@ -1,3 +1,4 @@
+using Doppler.ImageAnalysisApi.Helpers;
 using MediatR;
 using System.Reflection;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddScoped<IImageUrlExtractor, ImageUrlExtractor>();
 
 var app = builder.Build();
 
