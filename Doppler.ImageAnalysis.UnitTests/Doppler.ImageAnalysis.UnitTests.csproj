@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="Api\Controllers\" />
-    <Folder Include="Logic\Features\" />
   </ItemGroup>
 
   <ItemGroup>
