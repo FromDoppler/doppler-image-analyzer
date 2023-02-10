@@ -1,7 +1,13 @@
 ﻿using Doppler.ImageAnalysisApi.Features.Analysis;
 using Doppler.ImageAnalysisApi.Helpers;
+using Microsoft.AspNetCore.Html;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
