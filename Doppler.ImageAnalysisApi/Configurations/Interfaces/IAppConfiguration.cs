@@ -4,6 +4,7 @@ namespace Doppler.ImageAnalysisApi.Configurations.Interfaces;
 
 public interface IAppConfiguration
 {
-    public AmazonS3Configuration? AmazonS3 { get; set; }
-    public AmazonRekognitionConfiguration? AmazonRekognition { get; set; }
+    AmazonConfiguration? Amazon { get; set; }
+    AmazonS3Configuration? AmazonS3 { get; set; }
+    AmazonRekognitionConfiguration? AmazonRekognition { get; set; }
 }
