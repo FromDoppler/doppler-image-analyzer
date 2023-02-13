@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Features.Validations.Responses
+﻿namespace Doppler.ImageAnalysisApi.Features.Analysis.Responses
 {
     public class ImageAnalysisResponse
     {
