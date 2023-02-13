@@ -1,6 +1,6 @@
 ﻿using Doppler.ImageAnalysisApi.Api;
-using Doppler.ImageAnalysisApi.Features.Validations;
-using Doppler.ImageAnalysisApi.Features.Validations.Responses;
+using Doppler.ImageAnalysisApi.Features.Analysis;
+using Doppler.ImageAnalysisApi.Features.Analysis.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
