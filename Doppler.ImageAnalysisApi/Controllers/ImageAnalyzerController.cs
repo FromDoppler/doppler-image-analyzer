@@ -16,7 +16,7 @@ namespace Doppler.ImageAnalysisApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Response<List<ImageAnalysisResponse>>>> ValidateHtml(AnalyzeHtml.Command command, CancellationToken cancellationToken)
+        public async Task<ActionResult<Response<List<ImageAnalysisResponse>>>> AnalyzeHtml(AnalyzeHtml.Command command, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(command, cancellationToken);
 
