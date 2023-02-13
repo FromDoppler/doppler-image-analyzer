@@ -1,10 +1,10 @@
 ﻿using Doppler.ImageAnalysisApi.Api;
 using Doppler.ImageAnalysisApi.Extensions;
-using Doppler.ImageAnalysisApi.Features.Validations.Responses;
+using Doppler.ImageAnalysisApi.Features.Analysis.Responses;
 using Doppler.ImageAnalysisApi.Helpers;
 using MediatR;
 
-namespace Doppler.ImageAnalysisApi.Features.Validations
+namespace Doppler.ImageAnalysisApi.Features.Analysis
 {
     public class AnalyzeHtml
     {
