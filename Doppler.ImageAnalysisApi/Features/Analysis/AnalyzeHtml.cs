@@ -10,7 +10,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
     {
         public class Command : IRequest<Response<List<ImageAnalysisResponse>>>
         {
-            public string? HtmlToValidate { get; set; }
+            public string? HtmlToAnalize { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Response<List<ImageAnalysisResponse>>>
@@ -26,12 +26,12 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(request.HtmlToValidate))
+                    if (string.IsNullOrEmpty(request.HtmlToAnalize))
                     {
                         return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("Empty Html.");
                     }
 
-                    var images = _imageUrlExtractor.Extract(request.HtmlToValidate);
+                    var images = _imageUrlExtractor.Extract(request.HtmlToAnalize);
 
                     if (images.Count == 0)
                     {
