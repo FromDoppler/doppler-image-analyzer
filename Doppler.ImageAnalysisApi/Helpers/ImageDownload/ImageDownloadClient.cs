@@ -12,6 +12,11 @@ public class ImageDownloadClient : IImageDownloadClient
 
     public async Task<Stream?> GetImageStream(string url, CancellationToken cancellationToken = default)
     {
-        return !string.IsNullOrEmpty(url) ? await _httpClient.GetStreamAsync(url, cancellationToken) : null;
+        if (string.IsNullOrEmpty(url))
+            return null;
+
+        var response = await _httpClient.GetAsync(url, cancellationToken);
+
+        return await response.Content.ReadAsStreamAsync();
     }
 }
