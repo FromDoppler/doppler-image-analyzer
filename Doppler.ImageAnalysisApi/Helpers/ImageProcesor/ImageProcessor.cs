@@ -36,13 +36,15 @@ public class ImageProcessor : IImageProcessor
         await _s3Client.UploadStreamAsync(stream, new S3File()
         {
             BucketName = _appConfiguration.AmazonS3!.BucketName,
+            Path= _appConfiguration.AmazonS3!.Path,
             FileName = fileName
         }, cancellationToken);
 
         var rekognitionResult = await _rekognitionClient.DetectModerationLabelsAsync(new S3File()
         {
-            FileName = fileName,
             BucketName = _appConfiguration.AmazonS3!.BucketName,
+            Path = _appConfiguration.AmazonS3!.Path,
+            FileName = fileName,
         },
         new Rekognition()
         {

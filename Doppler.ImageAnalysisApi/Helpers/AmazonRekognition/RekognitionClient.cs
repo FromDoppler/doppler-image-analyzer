@@ -22,8 +22,8 @@ public class RekognitionClient : IRekognitionClient
             {
                 S3Object = new S3Object()
                 {
-                    Name = file.FileName,
                     Bucket = file.BucketName,
+                    Name = $"{file.Path}/{file.FileName}",
                 },
             },
             MinConfidence = rekognition.MinConfidence!.Value,

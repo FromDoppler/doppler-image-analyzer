@@ -13,6 +13,6 @@ public class S3Client : IS3Client
 
     public async Task UploadStreamAsync(Stream stream, IS3File file, CancellationToken cancellationToken = default)
     {
-        await _amazonS3.UploadObjectFromStreamAsync(file.BucketName, $"{file.FileName}", stream, null, cancellationToken);
+        await _amazonS3.UploadObjectFromStreamAsync(file.BucketName, $"{file.Path}/{file.FileName}", stream, null, cancellationToken);
     }
 }
