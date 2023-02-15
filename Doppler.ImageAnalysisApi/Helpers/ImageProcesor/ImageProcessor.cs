@@ -31,7 +31,7 @@ public class ImageProcessor : IImageProcessor
         if (Equals(stream, null))
             return null;
 
-        string fileName = $"{Guid.NewGuid()}.{extension}";
+        string fileName = $"{Guid.NewGuid()}{extension}";
 
         await _s3Client.UploadStreamAsync(stream, new S3File()
         {
