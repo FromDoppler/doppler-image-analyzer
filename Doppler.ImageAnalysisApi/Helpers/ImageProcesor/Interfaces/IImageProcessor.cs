@@ -2,5 +2,5 @@
 
 public interface IImageProcessor
 {
-    Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, CancellationToken cancellationToken = default);
+    Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, bool? allLabels = false, CancellationToken cancellationToken = default);
 }
