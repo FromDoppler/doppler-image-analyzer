@@ -5,4 +5,5 @@ namespace Doppler.ImageAnalysisApi.Helpers.AmazonRekognition;
 public class Rekognition : IRekognition
 {
     public float? MinConfidence { get; set; }
+    public int? MaxLabels { get; set; }
 }

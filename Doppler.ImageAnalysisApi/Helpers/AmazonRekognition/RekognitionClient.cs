@@ -30,4 +30,22 @@ public class RekognitionClient : IRekognitionClient
         };
         return await _amazonRekognition.DetectModerationLabelsAsync(detectModerationLabelsRequest, cancellationToken);
     }
+
+    public async Task<DetectLabelsResponse> DetectLabelsAsync(IS3File file, IRekognition rekognition, CancellationToken cancellationToken = default)
+    {
+        var detectLabelsRequest = new DetectLabelsRequest()
+        {
+            Image = new Image()
+            {
+                S3Object = new S3Object()
+                {
+                    Bucket = file.BucketName,
+                    Name = $"{file.Path}/{file.FileName}",
+                },
+            },
+            MinConfidence = rekognition.MinConfidence!.Value,
+            MaxLabels = rekognition.MaxLabels!.Value,
+        };
+        return await _amazonRekognition.DetectLabelsAsync(detectLabelsRequest, cancellationToken);
+    }
 }
