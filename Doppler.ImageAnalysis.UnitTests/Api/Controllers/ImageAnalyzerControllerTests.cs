@@ -34,7 +34,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
             var controller = new ImageAnalyzerController(_mediatorMock.Object);
             var command = new AnalyzeHtml.Command { HtmlToAnalize = html };
 
-            var result = await controller.AnalyzeHtml(command, default);
+            var result = await controller.AnalyzeHtml(command.HtmlToAnalize, default);
             
             Assert.NotNull(result);
             Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult).StatusCode == 200);
@@ -52,7 +52,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
             var controller = new ImageAnalyzerController(_mediatorMock.Object);
             var command = new AnalyzeHtml.Command { HtmlToAnalize = html };
 
-            var result = await controller.AnalyzeHtml(command, default);
+            var result = await controller.AnalyzeHtml(command.HtmlToAnalize, default);
 
             Assert.NotNull(result);
             Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult).StatusCode == 400);

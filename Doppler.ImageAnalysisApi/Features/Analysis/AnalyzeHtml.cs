@@ -43,7 +43,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
                         return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No images found.");
                     }
 
-                    var payload = await _analysisOrchestrator.ProcessImageList(imageUrls, cancellationToken); 
+                    var payload = await _analysisOrchestrator.ProcessImageList(imageUrls, request.AllLabels, cancellationToken); 
 
                     return new Response<List<ImageAnalysisResponse>>
                     {

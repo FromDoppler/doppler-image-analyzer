@@ -12,6 +12,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
         public class Command : IRequest<Response<List<ImageAnalysisResponse>>>
         {
             public List<string>? ImageUrls { get; set; }
+            public bool? AllLabels { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Response<List<ImageAnalysisResponse>>>
@@ -47,7 +48,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
                         return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No valid imnage urls to process.");
                     }
 
-                    var payload = await _analysisOrchestrator.ProcessImageList(request.ImageUrls, cancellationToken);
+                    var payload = await _analysisOrchestrator.ProcessImageList(request.ImageUrls, request.AllLabels, cancellationToken);
 
                     return new Response<List<ImageAnalysisResponse>>
                     {
