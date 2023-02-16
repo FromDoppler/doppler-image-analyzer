@@ -1,6 +1,6 @@
 ﻿using Doppler.ImageAnalysisApi.Features.Analysis;
 using Doppler.ImageAnalysisApi.Helpers;
-using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Interfaces;
+using Doppler.ImageAnalysisApi.Helpers.ImageAnalysis;
 using Moq;
 using System.Net;
 using Xunit;
@@ -10,18 +10,18 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
     public class AnalyzeHtmlTests
     {
         private readonly IImageUrlExtractor _imageUrlExtractor;
-        private readonly Mock<IImageProcessor> _imageProcessor;
+        private readonly Mock<IAnalysisOrchestrator> _analysisOrchestrator;
         public AnalyzeHtmlTests()
         {
             _imageUrlExtractor = new ImageUrlExtractor();
-            _imageProcessor = new Mock<IImageProcessor>();
+            _analysisOrchestrator = new Mock<IAnalysisOrchestrator>();
         }
 
         [Fact]
         public async Task AnalyzeHtml_GivenEmptyHtml_ShouldReturnBadRequest()
         {
             var command = new AnalyzeHtml.Command { HtmlToAnalize = string.Empty };
-            var handler = new AnalyzeHtml.Handler(_imageUrlExtractor, _imageProcessor.Object);
+            var handler = new AnalyzeHtml.Handler(_imageUrlExtractor, _analysisOrchestrator.Object);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
@@ -35,7 +35,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
             var html = "<html><div>Your account has been verified.</div></html>";
 
             var command = new AnalyzeHtml.Command { HtmlToAnalize = html };
-            var handler = new AnalyzeHtml.Handler(_imageUrlExtractor, _imageProcessor.Object);
+            var handler = new AnalyzeHtml.Handler(_imageUrlExtractor, _analysisOrchestrator.Object);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
@@ -52,7 +52,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
             var html = "<html><div>Your account has been verified.</div></html>";
 
             var command = new AnalyzeHtml.Command { HtmlToAnalize = html };
-            var handler = new AnalyzeHtml.Handler(imageExtractor.Object, _imageProcessor.Object);
+            var handler = new AnalyzeHtml.Handler(imageExtractor.Object, _analysisOrchestrator.Object);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
