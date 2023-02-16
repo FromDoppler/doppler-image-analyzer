@@ -6,6 +6,8 @@ using Doppler.ImageAnalysisApi.Helpers.ImageDownload.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers.ImageProcesor;
 using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers;
+using Doppler.ImageAnalysisApi.Helpers.AmazonS3.Interfaces;
+using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition.Interfaces;
 
 namespace Doppler.ImageAnalysisApi.Configurations;
 
