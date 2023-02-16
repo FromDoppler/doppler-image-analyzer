@@ -1,8 +1,7 @@
 ﻿using Doppler.ImageAnalysisApi.Configurations.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition;
 using Doppler.ImageAnalysisApi.Helpers.AmazonS3;
-using Doppler.ImageAnalysisApi.Helpers.ImageDownload;
-using Doppler.ImageAnalysisApi.Helpers.ImageDownload.Interfaces;
+using Doppler.ImageAnalysisApi.Helpers.ImageAnalysis;
 using Doppler.ImageAnalysisApi.Helpers.ImageProcesor;
 using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers;
@@ -18,6 +17,7 @@ public static class HelperConfiguration
         services.AddSingleton(_ => config);
         services.AddAmazonS3(config!.Amazon!);
         services.AddAmazonRekognition(config!.Amazon!);
+        services.AddScoped<IAnalysisOrchestrator, AnalysisOrchestrator>();
         services.AddScoped<IImageUrlExtractor, ImageUrlExtractor>();
         services.AddScoped<IImageProcessor, ImageProcessor>();
         services.AddScoped<IImageDownloadClient, ImageDownloadClient>();
