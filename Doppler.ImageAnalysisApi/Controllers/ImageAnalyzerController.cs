@@ -17,15 +17,6 @@ namespace Doppler.ImageAnalysisApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Response<List<ImageAnalysisResponse>>>> AnalyzeHtml(string htmlToAnalyze, CancellationToken cancellationToken)
-        {
-            var command = new AnalyzeHtml.Command { HtmlToAnalize = htmlToAnalyze };
-            var response = await _mediator.Send(command, cancellationToken);
-
-            return HandleResponse(response, "Returned image analysis");
-        }
-
-        [HttpPost]
         public async Task<ActionResult<Response<List<ImageAnalysisResponse>>>> AnalyzeHtml(AnalyzeHtmlRequest request, CancellationToken cancellationToken)
         {
             var command = new AnalyzeHtml.Command { HtmlToAnalize = request.HtmlToAnalize, AllLabels = request.AllLabels };
