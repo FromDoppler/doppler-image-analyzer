@@ -51,7 +51,7 @@ public class RekognitionClient : IRekognitionClient
             MinConfidence = rekognition.MinConfidence!.Value,
             MaxLabels = rekognition.MaxLabels!.Value,
         };
-        
+
         var result = await _amazonRekognition.DetectLabelsAsync(detectLabelsRequest, cancellationToken);
 
         return result.Labels.ToImageConfidences();

@@ -1,9 +1,10 @@
 ﻿using Doppler.ImageAnalysisApi.Api;
 using Doppler.ImageAnalysisApi.Extensions;
 using Doppler.ImageAnalysisApi.Features.Analysis.Responses;
-using Doppler.ImageAnalysisApi.Helpers;
 using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Interfaces;
+using Doppler.ImageAnalysisApi.Helpers;
 using MediatR;
+using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Extensions;
 
 namespace Doppler.ImageAnalysisApi.Features.Analysis
 {
@@ -12,6 +13,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
         public class Command : IRequest<Response<List<ImageAnalysisResponse>>>
         {
             public string? HtmlToAnalize { get; set; }
+            public bool? AllLabels { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Response<List<ImageAnalysisResponse>>>
@@ -45,26 +47,20 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
 
                     foreach (var url in imageUrls)
                     {
-                        var ret = await _imageProcessor.ProcessImage(url, false, cancellationToken);
+                        var imageConfidences = await _imageProcessor.ProcessImage(url, request.AllLabels, cancellationToken);
 
-                        if (ret != null)
+                        if (imageConfidences == null)
                         {
-                            var imageResponse = new ImageAnalysisResponse
-                            {
-                                ImageUrl = url,
-                                AnalysisDetail = new List<ImageAnalysisDetailResponse>()
-                            };
-
-                            foreach (var imageAnalysisDetail in ret)
-                            {
-                                imageResponse.AnalysisDetail.Add(new ImageAnalysisDetailResponse
-                                {
-                                    Label = imageAnalysisDetail.Label,
-                                    Confidence = imageAnalysisDetail.Confidence
-                                });
-                            }
-                            payload.Add(imageResponse);
+                            return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No Labels Detected");
                         }
+
+                        var imageResponse = new ImageAnalysisResponse
+                        {
+                            ImageUrl = url,
+                            AnalysisDetail = imageConfidences.ToImageAnalysisDetailResponses().ToList()
+                        };
+
+                        payload.Add(imageResponse);
                     }
 
                     return new Response<List<ImageAnalysisResponse>>

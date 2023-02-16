@@ -6,4 +6,5 @@ public interface IImageConfidence
     string? Url { get; set; }
     string? Label { get; set; }
     float? Confidence { get; set; }
+    public bool? IsModeration { get; set; }
 }

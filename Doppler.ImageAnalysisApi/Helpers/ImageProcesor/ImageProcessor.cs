@@ -3,8 +3,9 @@ using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition;
 using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers.AmazonS3;
 using Doppler.ImageAnalysisApi.Helpers.AmazonS3.Interfaces;
+using Doppler.ImageAnalysisApi.Helpers.ImageDownload.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Interfaces;
-using Doppler.ImageAnalysisApi.Helpers.Web.Interfaces;
+using System.Linq;
 
 namespace Doppler.ImageAnalysisApi.Helpers.ImageProcesor;
 
@@ -17,12 +18,12 @@ public class ImageProcessor : IImageProcessor
 
     public ImageProcessor(IImageDownloadClient imageDownloadClient, IS3Client s3Client, IRekognitionClient rekognitionClient, IAppConfiguration appConfiguration)
     {
-        _imageDownloadClient= imageDownloadClient;
+        _imageDownloadClient = imageDownloadClient;
         _s3Client = s3Client;
         _rekognitionClient = rekognitionClient;
         _appConfiguration = appConfiguration;
     }
-    public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, bool allLabels = false, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, bool? allLabels = false, CancellationToken cancellationToken = default)
     {
         var stream = await _imageDownloadClient.GetImageStream(url, cancellationToken);
         var extension = Path.GetExtension(url);
@@ -32,15 +33,21 @@ public class ImageProcessor : IImageProcessor
 
         string fileName = $"{Guid.NewGuid()}{extension}";
 
-        await _s3Client.UploadStreamAsync(stream, new S3File()
+        await UploadStreamAsync(stream!, fileName, cancellationToken);
+
+        IEnumerable<IImageConfidence> confidences= await GetModerationLabels(fileName, cancellationToken);
+
+        return allLabels!.Value ? confidences.Union(await GetAllLabels(fileName, cancellationToken)) : confidences;
+    }
+
+    private async Task UploadStreamAsync(Stream? stream, string fileName, CancellationToken cancellationToken = default)
+    {
+        await _s3Client.UploadStreamAsync(stream!, new S3File()
         {
             BucketName = _appConfiguration.AmazonS3!.BucketName,
-            Path= _appConfiguration.AmazonS3!.Path,
+            Path = _appConfiguration.AmazonS3!.Path,
             FileName = fileName
         }, cancellationToken);
-
-        return allLabels ? await GetAllLabels(fileName, cancellationToken) :
-            await GetModerationLabels(fileName, cancellationToken); 
     }
 
     private async Task<IEnumerable<IImageConfidence>> GetModerationLabels(string fileName, CancellationToken cancellationToken = default)
@@ -67,7 +74,8 @@ public class ImageProcessor : IImageProcessor
         },
         new Rekognition()
         {
-            MinConfidence = _appConfiguration.AmazonRekognition!.MinConfidence
+            MinConfidence = _appConfiguration.AmazonRekognition!.MinConfidence,
+            MaxLabels = _appConfiguration.AmazonRekognition!.MaxLabels,
         }, cancellationToken);
     }
 }

@@ -1,6 +1,6 @@
-﻿using Doppler.ImageAnalysisApi.Helpers.Web.Interfaces;
+﻿using Doppler.ImageAnalysisApi.Helpers.ImageDownload.Interfaces;
 
-namespace Doppler.ImageAnalysisApi.Helpers.Web;
+namespace Doppler.ImageAnalysisApi.Helpers.ImageDownload;
 
 public class ImageDownloadClient : IImageDownloadClient
 {
