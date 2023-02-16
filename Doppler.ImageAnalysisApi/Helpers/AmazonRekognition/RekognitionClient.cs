@@ -1,7 +1,9 @@
 ﻿using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
+using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition.Extensions;
 using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers.AmazonS3.Interfaces;
+using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Interfaces;
 
 namespace Doppler.ImageAnalysisApi.Helpers.AmazonRekognition;
 
@@ -14,7 +16,7 @@ public class RekognitionClient : IRekognitionClient
         _amazonRekognition = amazonRekognition;
     }
 
-    public async Task<DetectModerationLabelsResponse> DetectModerationLabelsAsync(IS3File file, IRekognition rekognition, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<IImageConfidence>> DetectModerationLabelsAsync(IS3File file, IRekognition rekognition, CancellationToken cancellationToken = default)
     {
         var detectModerationLabelsRequest = new DetectModerationLabelsRequest()
         {
@@ -28,10 +30,13 @@ public class RekognitionClient : IRekognitionClient
             },
             MinConfidence = rekognition.MinConfidence!.Value,
         };
-        return await _amazonRekognition.DetectModerationLabelsAsync(detectModerationLabelsRequest, cancellationToken);
+
+        var result = await _amazonRekognition.DetectModerationLabelsAsync(detectModerationLabelsRequest, cancellationToken);
+
+        return result.ModerationLabels.ToImageConfidences();
     }
 
-    public async Task<DetectLabelsResponse> DetectLabelsAsync(IS3File file, IRekognition rekognition, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<IImageConfidence>> DetectLabelsAsync(IS3File file, IRekognition rekognition, CancellationToken cancellationToken = default)
     {
         var detectLabelsRequest = new DetectLabelsRequest()
         {
@@ -46,6 +51,9 @@ public class RekognitionClient : IRekognitionClient
             MinConfidence = rekognition.MinConfidence!.Value,
             MaxLabels = rekognition.MaxLabels!.Value,
         };
-        return await _amazonRekognition.DetectLabelsAsync(detectLabelsRequest, cancellationToken);
+        
+        var result = await _amazonRekognition.DetectLabelsAsync(detectLabelsRequest, cancellationToken);
+
+        return result.Labels.ToImageConfidences();
     }
 }

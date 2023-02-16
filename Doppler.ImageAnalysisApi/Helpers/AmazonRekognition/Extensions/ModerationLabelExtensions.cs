@@ -5,15 +5,14 @@ namespace Doppler.ImageAnalysisApi.Helpers.AmazonRekognition.Extensions;
 
 public static class ModerationLabelExtensions
 {
-    public static ImageConfidence ToImageConfidence(this ModerationLabel moderationLabel, string fileName) => new()
+    public static ImageConfidence ToImageConfidence(this ModerationLabel moderationLabel) => new()
     {
-        FileName = fileName,
         Confidence = moderationLabel.Confidence,
         Label = moderationLabel.Name
     };
 
-    public static IEnumerable<ImageConfidence> ToImageConfidences(this List<ModerationLabel> moderationLabels, string filename)
+    public static IEnumerable<ImageConfidence> ToImageConfidences(this List<ModerationLabel> moderationLabels)
     {
-        return moderationLabels.Select(x => x.ToImageConfidence(filename));
+        return moderationLabels.Select(x => x.ToImageConfidence());
     }
 }

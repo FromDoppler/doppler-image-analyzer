@@ -45,7 +45,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
 
                     foreach (var url in imageUrls)
                     {
-                        var ret = await _imageProcessor.ProcessImage(url, cancellationToken);
+                        var ret = await _imageProcessor.ProcessImage(url, false, cancellationToken);
 
                         if (ret != null)
                         {

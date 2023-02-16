@@ -1,6 +1,5 @@
 ﻿using Doppler.ImageAnalysisApi.Configurations.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition;
-using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition.Extensions;
 using Doppler.ImageAnalysisApi.Helpers.AmazonRekognition.Interfaces;
 using Doppler.ImageAnalysisApi.Helpers.AmazonS3;
 using Doppler.ImageAnalysisApi.Helpers.AmazonS3.Interfaces;
@@ -23,7 +22,7 @@ public class ImageProcessor : IImageProcessor
         _rekognitionClient = rekognitionClient;
         _appConfiguration = appConfiguration;
     }
-    public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, bool allLabels = false, CancellationToken cancellationToken = default)
     {
         var stream = await _imageDownloadClient.GetImageStream(url, cancellationToken);
         var extension = Path.GetExtension(url);
@@ -40,7 +39,13 @@ public class ImageProcessor : IImageProcessor
             FileName = fileName
         }, cancellationToken);
 
-        var rekognitionResult = await _rekognitionClient.DetectModerationLabelsAsync(new S3File()
+        return allLabels ? await GetAllLabels(fileName, cancellationToken) :
+            await GetModerationLabels(fileName, cancellationToken); 
+    }
+
+    private async Task<IEnumerable<IImageConfidence>> GetModerationLabels(string fileName, CancellationToken cancellationToken = default)
+    {
+        return await _rekognitionClient.DetectModerationLabelsAsync(new S3File()
         {
             BucketName = _appConfiguration.AmazonS3!.BucketName,
             Path = _appConfiguration.AmazonS3!.Path,
@@ -50,7 +55,19 @@ public class ImageProcessor : IImageProcessor
         {
             MinConfidence = _appConfiguration.AmazonRekognition!.MinConfidence
         }, cancellationToken);
+    }
 
-        return rekognitionResult.ModerationLabels.ToImageConfidences(fileName);
+    private async Task<IEnumerable<IImageConfidence>> GetAllLabels(string fileName, CancellationToken cancellationToken = default)
+    {
+        return await _rekognitionClient.DetectLabelsAsync(new S3File()
+        {
+            BucketName = _appConfiguration.AmazonS3!.BucketName,
+            Path = _appConfiguration.AmazonS3!.Path,
+            FileName = fileName,
+        },
+        new Rekognition()
+        {
+            MinConfidence = _appConfiguration.AmazonRekognition!.MinConfidence
+        }, cancellationToken);
     }
 }
