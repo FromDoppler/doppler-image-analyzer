@@ -9,7 +9,7 @@ namespace Doppler.ImageAnalysisApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ImageAnalyzerController : TaggerControllerBase
+    public class ImageAnalyzerController : DopplerControllerBase
     {
         public ImageAnalyzerController(IMediator mediator)
             : base(mediator)
