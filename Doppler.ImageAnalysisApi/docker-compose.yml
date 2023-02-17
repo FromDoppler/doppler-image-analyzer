@@ -1,0 +1,11 @@
+﻿version: "3.9"  # optional since v1.27.0
+services:
+  web_api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: doppler-image-rekognition-api
+    container_name: doppler-container-rekognition-api
+    ports:
+      - "5000:80"
+      - "443:443"

@@ -12,11 +12,11 @@ namespace Doppler.ImageAnalysisApi.Helpers.ImageAnalysis
             _imageProcessor = imageProcessor;
         }
 
-        public async Task<List<ImageAnalysisResponse>> ProcessImageList(List<string> imageUrls, bool? allLabels, CancellationToken cancellationToken)
+        public async Task<List<ImageAnalysisResponse>> ProcessImageList(List<string> imageList, bool? allLabels, CancellationToken cancellationToken)
         {
             var analysisResult = new List<ImageAnalysisResponse>();
 
-            foreach (var url in imageUrls)
+            foreach (var url in imageList)
             {
                 var ret = await _imageProcessor.ProcessImage(url, allLabels, cancellationToken);
 
