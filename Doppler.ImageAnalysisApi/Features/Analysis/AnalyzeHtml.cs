@@ -4,7 +4,6 @@ using Doppler.ImageAnalysisApi.Features.Analysis.Responses;
 using Doppler.ImageAnalysisApi.Helpers;
 using Doppler.ImageAnalysisApi.Helpers.ImageAnalysis;
 using MediatR;
-using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Extensions;
 
 namespace Doppler.ImageAnalysisApi.Features.Analysis
 {
