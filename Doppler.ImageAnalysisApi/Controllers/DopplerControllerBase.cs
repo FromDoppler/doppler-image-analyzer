@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Doppler.ImageAnalysisApi.Controllers
 {
-    public abstract class TaggerControllerBase : ControllerBase
+    public abstract class DopplerControllerBase : ControllerBase
     {
         protected readonly IMediator _mediator;
 
-        protected TaggerControllerBase(IMediator mediator)
+        protected DopplerControllerBase(IMediator mediator)
         {
             _mediator = mediator;
         }

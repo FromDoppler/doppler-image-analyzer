@@ -35,7 +35,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
                         return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("Empty Html.");
                     }
 
-                    foreach (var imageUrl in request.ImageUrls)
+                    foreach (var imageUrl in request.ImageUrls.ToArray())
                     {
                         if (!_imageUrlExtractor.IsValidUrl(imageUrl))
                         {
@@ -43,7 +43,7 @@ namespace Doppler.ImageAnalysisApi.Features.Analysis
                         }
                     }
 
-                    if (request.ImageUrls == null || request.ImageUrls.Count == 0)
+                    if (request.ImageUrls.Count == 0)
                     {
                         return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No valid imnage urls to process.");
                     }
