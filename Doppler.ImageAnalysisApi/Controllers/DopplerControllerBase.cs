@@ -1,6 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Api;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Doppler.ImageAnalysisApi.Controllers
 {
