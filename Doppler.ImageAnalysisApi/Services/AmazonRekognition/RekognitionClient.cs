@@ -52,4 +52,25 @@ public class RekognitionClient : IRekognitionClient
 
         return result.Labels.ToImageConfidences();
     }
+
+    public async Task<IEnumerable<IImageConfidence>> DetectCustomLabelsAsync(IS3File file, IRekognition rekognition, CancellationToken cancellationToken = default)
+    {
+        var detectLabelsRequest = new DetectCustomLabelsRequest()
+        {
+            Image = new Image()
+            {
+                S3Object = new S3Object()
+                {
+                    Bucket = file.BucketName,
+                    Name = $"{file.Path}/{file.FileName}",
+                },
+            },
+            MinConfidence = rekognition.MinConfidence!.Value,
+            ProjectVersionArn = rekognition.ProjectVersionArn,
+        };
+
+        var result = await _amazonRekognition.DetectCustomLabelsAsync(detectLabelsRequest, cancellationToken);
+
+        return result.CustomLabels.ToImageConfidences();
+    }
 }

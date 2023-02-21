@@ -5,6 +5,7 @@ using Doppler.ImageAnalysisApi.Services.AmazonS3.Interfaces;
 using Doppler.ImageAnalysisApi.Services.ImageDownload.Interfaces;
 using Moq;
 using Xunit;
+using Doppler.ImageAnalysisApi.Services.ImageProcesor.Enums;
 
 namespace Doppler.ImageAnalysis.UnitTests.Api.Services;
 
@@ -31,7 +32,7 @@ public class ImageProcessorTests
 
         var service = new ImageProcessor(_imageDownloadClient.Object, _s3Client.Object, _rekognitionClient.Object, _appConfiguration.Object);
 
-        var result = await service.ProcessImage("http://filename.jpg", true, CancellationToken.None);
+        var result = await service.ProcessImage("http://filename.jpg", AnalysisType.AllLabels, CancellationToken.None);
 
         Assert.True(result == null);
     }

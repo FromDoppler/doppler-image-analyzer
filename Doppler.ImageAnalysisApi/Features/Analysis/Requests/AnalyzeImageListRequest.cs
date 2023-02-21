@@ -3,6 +3,6 @@
     public class AnalyzeImageListRequest
     {
         public List<string>? ImageUrls { get; set; }
-        public bool? AllLabels { get; set; }
+        public string? AnalysisType { get; set; }
     }
 }

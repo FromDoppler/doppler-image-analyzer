@@ -17,6 +17,7 @@ global using Doppler.ImageAnalysisApi.Services.ImageAnalysis.Interfaces;
 global using Doppler.ImageAnalysisApi.Services.ImageDownload;
 global using Doppler.ImageAnalysisApi.Services.ImageDownload.Interfaces;
 global using Doppler.ImageAnalysisApi.Services.ImageProcesor;
+global using Doppler.ImageAnalysisApi.Services.ImageProcesor.Enums;
 global using Doppler.ImageAnalysisApi.Services.ImageProcesor.Extensions;
 global using Doppler.ImageAnalysisApi.Services.ImageProcesor.Interfaces;
 global using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor;

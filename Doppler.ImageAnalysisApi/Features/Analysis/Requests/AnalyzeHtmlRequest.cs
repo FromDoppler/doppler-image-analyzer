@@ -3,6 +3,6 @@
     public class AnalyzeHtmlRequest
     {
         public string? HtmlToAnalize { get; set; }
-        public bool? AllLabels { get; set; }
+        public string? AnalysisType { get; set; }
     }
 }

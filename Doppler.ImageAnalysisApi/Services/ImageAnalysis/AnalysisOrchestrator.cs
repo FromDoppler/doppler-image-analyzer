@@ -9,13 +9,16 @@ public class AnalysisOrchestrator : IAnalysisOrchestrator
         _imageProcessor = imageProcessor;
     }
 
-    public async Task<List<ImageAnalysisResponse>> ProcessImageList(List<string> imageList, bool? allLabels, CancellationToken cancellationToken)
+    public async Task<List<ImageAnalysisResponse>> ProcessImageList(List<string> imageList, string? analysisType, CancellationToken cancellationToken)
     {
         var analysisResult = new List<ImageAnalysisResponse>();
 
+        if (!Enum.TryParse(analysisType, out AnalysisType enumAnalysisType))
+            return analysisResult;
+
         foreach (var url in imageList)
         {
-            var imageConfidences = await _imageProcessor.ProcessImage(url, allLabels, cancellationToken);
+            var imageConfidences = await _imageProcessor.ProcessImage(url, enumAnalysisType, cancellationToken);
 
             if (imageConfidences != null)
             {

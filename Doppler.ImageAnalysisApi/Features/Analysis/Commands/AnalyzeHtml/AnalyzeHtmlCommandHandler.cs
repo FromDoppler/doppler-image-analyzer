@@ -29,7 +29,7 @@ public partial class AnalyzeHtmlCommand
                     return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No images found.");
                 }
 
-                var payload = await _analysisOrchestrator.ProcessImageList(imageUrls, request.AllLabels, cancellationToken);
+                var payload = await _analysisOrchestrator.ProcessImageList(imageUrls, request.AnalysisType, cancellationToken);
 
                 return new Response<List<ImageAnalysisResponse>>
                 {
