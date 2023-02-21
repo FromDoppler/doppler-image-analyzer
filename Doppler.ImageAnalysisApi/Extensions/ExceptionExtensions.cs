@@ -1,5 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Api;
-using System.Net;
+﻿using System.Net;
 
 namespace Doppler.ImageAnalysisApi.Extensions
 {
@@ -7,7 +6,7 @@ namespace Doppler.ImageAnalysisApi.Extensions
     {
         public const string UnexpectedErrorKey = "UNEXPECTED_ERROR";
 
-        public static Response<T> ToResponse<T>(this Exception exception, string referenceId = null)
+        public static Response<T> ToResponse<T>(this Exception exception, string? referenceId = null)
         {
             var description = referenceId != null
                 ? $"ReferenceId: {referenceId}"
@@ -15,7 +14,7 @@ namespace Doppler.ImageAnalysisApi.Extensions
             return Response.GetResponseError<T>(statusCode: HttpStatusCode.InternalServerError, errorKey: UnexpectedErrorKey, errorDescription: description, exception: exception);
         }
 
-        public static Response ToResponse(this Exception exception, string referenceId = null)
+        public static Response ToResponse(this Exception exception, string? referenceId = null)
         {
             var description = referenceId != null
                 ? $"ReferenceId: {referenceId}"

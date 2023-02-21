@@ -1,8 +1,10 @@
-﻿using Doppler.ImageAnalysisApi.Features.Analysis;
-using Doppler.ImageAnalysisApi.Helpers;
-using Doppler.ImageAnalysisApi.Helpers.ImageAnalysis;
-using Doppler.ImageAnalysisApi.Helpers.ImageProcesor;
-using Doppler.ImageAnalysisApi.Helpers.ImageProcesor.Interfaces;
+﻿using Doppler.ImageAnalysisApi.Features.Analysis.Commands.AnalyzeHtml;
+using Doppler.ImageAnalysisApi.Services.ImageAnalysis;
+using Doppler.ImageAnalysisApi.Services.ImageAnalysis.Interfaces;
+using Doppler.ImageAnalysisApi.Services.ImageProcesor;
+using Doppler.ImageAnalysisApi.Services.ImageProcesor.Interfaces;
+using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor;
+using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor.Interfaces;
 using Moq;
 using System.Net;
 using Xunit;
@@ -24,8 +26,8 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
         [Fact]
         public async Task AnalyzeHtml_GivenEmptyHtml_ShouldReturnBadRequest()
         {
-            var command = new AnalyzeHtml.Command { HtmlToAnalize = string.Empty };
-            var handler = new AnalyzeHtml.Handler(_imageUrlExtractor, _analysisOrchestrator);
+            var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = string.Empty };
+            var handler = new AnalyzeHtmlCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
@@ -38,8 +40,8 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
         {
             var html = "<html><div>Your account has been verified.</div></html>";
 
-            var command = new AnalyzeHtml.Command { HtmlToAnalize = html };
-            var handler = new AnalyzeHtml.Handler(_imageUrlExtractor, _analysisOrchestrator);
+            var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = html };
+            var handler = new AnalyzeHtmlCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
@@ -55,8 +57,8 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
 
             var html = "<html><div>Your account has been verified.</div></html>";
 
-            var command = new AnalyzeHtml.Command { HtmlToAnalize = html };
-            var handler = new AnalyzeHtml.Handler(imageExtractor.Object, _analysisOrchestrator);
+            var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = html };
+            var handler = new AnalyzeHtmlCommand.Handler(imageExtractor.Object, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
 
@@ -75,8 +77,8 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
 
             _imageProcessor.Setup(x => x.ProcessImage(It.IsAny<string>(), It.IsAny<bool>(), CancellationToken.None))
                            .ReturnsAsync(new List<ImageConfidence> { new ImageConfidence { Confidence = (float?)0.99, FileName = "filename.jpg", IsModeration = false, Label = "Label" } });
-            var command = new AnalyzeHtml.Command { HtmlToAnalize = html, AllLabels = true };
-            var handler = new AnalyzeHtml.Handler(_imageUrlExtractor, _analysisOrchestrator);
+            var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = html, AllLabels = true };
+            var handler = new AnalyzeHtmlCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
 

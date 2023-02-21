@@ -32,7 +32,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
             var result = await controller.AnalyzeHtml(request, default);
 
             Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult).StatusCode == 200);
+            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 200);
             _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
         }
 
@@ -50,7 +50,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
             var result = await controller.AnalyzeHtml(request, default);
 
             Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult).StatusCode == 400);
+            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 400);
             _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
         }
 
@@ -70,7 +70,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
             var result = await controller.AnalyzeImageList(request, default);
 
             Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult).StatusCode == 200);
+            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 200);
             _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
         }
 
@@ -89,7 +89,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
             var result = await controller.AnalyzeImageList(request, default);
 
             Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult).StatusCode == 400);
+            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 400);
             _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
         }
     }

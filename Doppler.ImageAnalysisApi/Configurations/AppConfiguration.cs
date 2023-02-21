@@ -1,7 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Configurations.Amazon;
-using Doppler.ImageAnalysisApi.Configurations.Interfaces;
-
-namespace Doppler.ImageAnalysisApi.Configurations;
+﻿namespace Doppler.ImageAnalysisApi.Configurations;
 
 public class AppConfiguration : IAppConfiguration
 {
