@@ -1,8 +1,8 @@
-using Doppler.ImageAnalysisApi.Configurations;
-using MediatR;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 var appConfig = builder.Configuration.GetConfiguration<AppConfiguration>();
