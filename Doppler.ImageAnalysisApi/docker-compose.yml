@@ -9,3 +9,6 @@ services:
     ports:
       - "5000:80"
       - "443:443"
+    environment:
+      - AppConfiguration__Amazon__AwsAccessKey = AwsAccessKey
+      - AppConfiguration__Amazon__AwsAccessSecret = AwsAccessSecret
