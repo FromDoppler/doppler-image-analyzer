@@ -1,7 +1,6 @@
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
 builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.

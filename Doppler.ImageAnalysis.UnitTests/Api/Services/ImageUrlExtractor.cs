@@ -1,5 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor;
-using Xunit;
+﻿using Xunit;
 
 namespace Doppler.ImageAnalysis.UnitTests.Api.Services;
 
