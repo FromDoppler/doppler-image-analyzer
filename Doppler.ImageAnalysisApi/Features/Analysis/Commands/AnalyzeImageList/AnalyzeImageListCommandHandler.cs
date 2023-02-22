@@ -35,7 +35,7 @@ public partial class AnalyzeImageListCommand
                     return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No valid imnage urls to process.");
                 }
 
-                var payload = await _analysisOrchestrator.ProcessImageList(request.ImageUrls, request.AllLabels, cancellationToken);
+                var payload = await _analysisOrchestrator.ProcessImageList(request.ImageUrls, request.AnalysisType, cancellationToken);
 
                 return new Response<List<ImageAnalysisResponse>>
                 {

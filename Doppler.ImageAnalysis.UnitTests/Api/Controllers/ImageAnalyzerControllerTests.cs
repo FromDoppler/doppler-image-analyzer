@@ -2,6 +2,7 @@
 using Doppler.ImageAnalysisApi.Controllers;
 using Doppler.ImageAnalysisApi.Features.Analysis.Requests;
 using Doppler.ImageAnalysisApi.Features.Analysis.Responses;
+using Doppler.ImageAnalysisApi.Services.ImageProcesor.Enums;
 using MediatR;
 using Moq;
 using System.Net;
@@ -27,7 +28,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
                          .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
 
             var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AllLabels = false };
+            var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
 
             var result = await controller.AnalyzeHtml(request, default);
 
@@ -45,7 +46,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
                          .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest});
 
             var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AllLabels = false };
+            var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
 
             var result = await controller.AnalyzeHtml(request, default);
 
@@ -65,7 +66,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
                          .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
 
             var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AllLabels = false };
+            var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
 
             var result = await controller.AnalyzeImageList(request, default);
 
@@ -84,7 +85,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
                          .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
 
             var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AllLabels = false };
+            var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
 
             var result = await controller.AnalyzeImageList(request, default);
 

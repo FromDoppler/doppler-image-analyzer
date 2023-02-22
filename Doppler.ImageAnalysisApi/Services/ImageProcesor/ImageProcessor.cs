@@ -14,7 +14,7 @@ public class ImageProcessor : IImageProcessor
         _rekognitionClient = rekognitionClient;
         _appConfiguration = appConfiguration;
     }
-    public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, bool? allLabels = false, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, AnalysisType? analysisType = AnalysisType.ModerationContent, CancellationToken cancellationToken = default)
     {
         var stream = await _imageDownloadClient.GetImageStream(url, cancellationToken);
         var extension = Path.GetExtension(url);
@@ -28,7 +28,9 @@ public class ImageProcessor : IImageProcessor
 
         IEnumerable<IImageConfidence> confidences = await GetModerationLabels(fileName, cancellationToken);
 
-        return allLabels!.Value ? confidences.Union(await GetAllLabels(fileName, cancellationToken)) : confidences;
+        _ = _appConfiguration.AmazonRekognition!.Customlabels!.Value ? confidences.Union(await GetCustomLabels(fileName, cancellationToken)) : confidences;
+
+        return analysisType == AnalysisType.AllLabels ? confidences.Union(await GetAllLabels(fileName, cancellationToken)) : confidences;
     }
 
     private async Task UploadStreamAsync(Stream? stream, string fileName, CancellationToken cancellationToken = default)
@@ -67,6 +69,22 @@ public class ImageProcessor : IImageProcessor
         {
             MinConfidence = _appConfiguration.AmazonRekognition!.MinConfidence,
             MaxLabels = _appConfiguration.AmazonRekognition!.MaxLabels,
+        }, cancellationToken);
+    }
+
+    private async Task<IEnumerable<IImageConfidence>> GetCustomLabels(string fileName, CancellationToken cancellationToken = default)
+    {
+        return await _rekognitionClient.DetectCustomLabelsAsync(new S3File()
+        {
+            BucketName = _appConfiguration.AmazonS3!.BucketName,
+            Path = _appConfiguration.AmazonS3!.Path,
+            FileName = fileName,
+        },
+        new Rekognition()
+        {
+            MinConfidence = _appConfiguration.AmazonRekognition!.MinConfidence,
+            MaxLabels = _appConfiguration.AmazonRekognition!.MaxLabels,
+            ProjectVersionArn = _appConfiguration.AmazonRekognition.ProjectVersionArn,
         }, cancellationToken);
     }
 }

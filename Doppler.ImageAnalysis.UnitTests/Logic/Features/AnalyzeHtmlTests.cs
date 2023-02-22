@@ -1,15 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Features.Analysis.Commands.AnalyzeHtml;
-using Doppler.ImageAnalysisApi.Services.ImageAnalysis;
-using Doppler.ImageAnalysisApi.Services.ImageAnalysis.Interfaces;
-using Doppler.ImageAnalysisApi.Services.ImageProcesor;
-using Doppler.ImageAnalysisApi.Services.ImageProcesor.Interfaces;
-using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor;
-using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor.Interfaces;
-using Moq;
-using System.Net;
-using Xunit;
-
-namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
+﻿namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
 {
     public class AnalyzeHtmlTests
     {
@@ -75,9 +64,9 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
                 "             <img id='CDSHBJUdsagy' src='https://img.freepik.com/free-photo/careless-rude-girl-showing-middle-finger-person_176420-21631.jpg'>" +
                 "       </html>";
 
-            _imageProcessor.Setup(x => x.ProcessImage(It.IsAny<string>(), It.IsAny<bool>(), CancellationToken.None))
+            _imageProcessor.Setup(x => x.ProcessImage(It.IsAny<string>(), It.IsAny<AnalysisType>(), CancellationToken.None))
                            .ReturnsAsync(new List<ImageConfidence> { new ImageConfidence { Confidence = (float?)0.99, FileName = "filename.jpg", IsModeration = false, Label = "Label" } });
-            var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = html, AllLabels = true };
+            var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = html, AnalysisType = "AllLabels" };
             var handler = new AnalyzeHtmlCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);

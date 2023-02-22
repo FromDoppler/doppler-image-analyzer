@@ -1,0 +1,12 @@
+﻿global using Doppler.ImageAnalysisApi.Features.Analysis.Commands.AnalyzeHtml;
+global using Doppler.ImageAnalysisApi.Features.Analysis.Commands.AnalyzeImageList;
+global using Doppler.ImageAnalysisApi.Services.ImageAnalysis;
+global using Doppler.ImageAnalysisApi.Services.ImageAnalysis.Interfaces;
+global using Doppler.ImageAnalysisApi.Services.ImageProcesor;
+global using Doppler.ImageAnalysisApi.Services.ImageProcesor.Enums;
+global using Doppler.ImageAnalysisApi.Services.ImageProcesor.Interfaces;
+global using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor;
+global using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor.Interfaces;
+global using Moq;
+global using System.Net;
+global using Xunit;

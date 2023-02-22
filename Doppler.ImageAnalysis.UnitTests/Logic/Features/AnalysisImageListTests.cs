@@ -1,15 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Features.Analysis.Commands.AnalyzeImageList;
-using Doppler.ImageAnalysisApi.Services.ImageAnalysis;
-using Doppler.ImageAnalysisApi.Services.ImageAnalysis.Interfaces;
-using Doppler.ImageAnalysisApi.Services.ImageProcesor;
-using Doppler.ImageAnalysisApi.Services.ImageProcesor.Interfaces;
-using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor;
-using Doppler.ImageAnalysisApi.Services.ImageUrlExtractor.Interfaces;
-using Moq;
-using System.Net;
-using Xunit;
-
-namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
+﻿namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
 {
     public class AnalysisImageListTests
     {
@@ -27,7 +16,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
         [Fact]
         public async Task AnalyzeImageList_GivenNullList_ShouldReturnBadRequest()
         {
-            var command = new AnalyzeImageListCommand.Command { ImageUrls = null, AllLabels = true };
+            var command = new AnalyzeImageListCommand.Command { ImageUrls = null, AnalysisType = "AllLabels" };
             var handler = new AnalyzeImageListCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
@@ -39,7 +28,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
         [Fact]
         public async Task AnalyzeImageList_GivenEmptylList_ShouldReturnBadRequest()
         {
-            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string>(), AllLabels = true };
+            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string>(), AnalysisType = "AllLabels" };
             var handler = new AnalyzeImageListCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
@@ -51,7 +40,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
         [Fact]
         public async Task AnalyzeImageList_GivenInvalidImages_ShouldReturnBadRequest()
         {
-            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "abc", "cde" }, AllLabels = true };
+            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "abc", "cde" }, AnalysisType = "AllLabels" };
             var handler = new AnalyzeImageListCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
@@ -67,7 +56,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
             imageExtractor.Setup(x => x.IsValidUrl(It.IsAny<string>()))
                           .Throws<InvalidOperationException>();
 
-            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "abc", "cde" }, AllLabels = true };
+            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "abc", "cde" }, AnalysisType = "AllLabels" };
             var handler = new AnalyzeImageListCommand.Handler(imageExtractor.Object, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
@@ -80,9 +69,9 @@ namespace Doppler.ImageAnalysis.UnitTests.Logic.Features
         [Fact]
         public async Task AnalyzeImageList_GivenValidImages_ShouldReturnResponseWithAnalysis()
         {
-            _imageProcessor.Setup(x => x.ProcessImage(It.IsAny<string>(), It.IsAny<bool>(), CancellationToken.None))
+            _imageProcessor.Setup(x => x.ProcessImage(It.IsAny<string>(), It.IsAny<AnalysisType>(), CancellationToken.None))
                .ReturnsAsync(new List<ImageConfidence> { new ImageConfidence { Confidence = (float?)0.99, FileName = "filename.jpg", IsModeration = true, Label = "Label" } });
-            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "http://filename.jpg"}, AllLabels = false };
+            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "http://filename.jpg"}, AnalysisType = "ModerationContent" };
             var handler = new AnalyzeImageListCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);

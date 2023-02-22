@@ -2,5 +2,5 @@
 
 public interface IAnalysisOrchestrator
 {
-    Task<List<ImageAnalysisResponse>> ProcessImageList(List<string> imageList, bool? allLabels, CancellationToken cancellationToken);
+    Task<List<ImageAnalysisResponse>> ProcessImageList(List<string> imageList, string? analysisType, CancellationToken cancellationToken);
 }
