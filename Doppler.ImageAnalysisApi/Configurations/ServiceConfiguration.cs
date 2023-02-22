@@ -1,6 +1,6 @@
 ﻿namespace Doppler.ImageAnalysisApi.Configurations;
 
-public static class HelperConfiguration
+public static class ServiceConfiguration
 {
     public static IServiceCollection AddOperationsLogic(this IServiceCollection services, IAppConfiguration config)
     {
