@@ -43,7 +43,7 @@ namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
             var html = string.Empty;
 
             _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
-                         .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest});
+                         .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
 
             var controller = new ImageAnalyzerController(_mediatorMock.Object);
             var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };

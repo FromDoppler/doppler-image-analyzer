@@ -13,7 +13,7 @@ public class ImageUrlExtractor
 
         List<string> imageUrls = extractor.Extract(html);
 
-         Assert.Equal(new List<string> { "http://www.test.com/image1.jpg", "http://test.com/image2.jpg" }, imageUrls);
+        Assert.Equal(new List<string> { "http://www.test.com/image1.jpg", "http://test.com/image2.jpg" }, imageUrls);
     }
 
     [Fact]
