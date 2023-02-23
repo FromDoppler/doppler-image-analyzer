@@ -19,4 +19,6 @@ RUN dotnet publish "Doppler.ImageAnalysisApi.csproj" -c Release -o /app/publish 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ARG version=unknown
+RUN echo $version > /app/wwwroot/version.txt
 ENTRYPOINT ["dotnet", "Doppler.ImageAnalysisApi.dll"]
