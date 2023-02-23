@@ -71,7 +71,7 @@
         {
             _imageProcessor.Setup(x => x.ProcessImage(It.IsAny<string>(), It.IsAny<AnalysisType>(), CancellationToken.None))
                .ReturnsAsync(new List<ImageConfidence> { new ImageConfidence { Confidence = (float?)0.99, FileName = "filename.jpg", IsModeration = true, Label = "Label" } });
-            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "http://filename.jpg"}, AnalysisType = "ModerationContent" };
+            var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "http://filename.jpg" }, AnalysisType = "ModerationContent" };
             var handler = new AnalyzeImageListCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
 
             var response = await handler.Handle(command, CancellationToken.None);
