@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  doppler.image.analyzer:
+    image: ${DOCKER_REGISTRY-}${DOCKER_NAMESPACE:-dopplerdock}/doppler-image-analyzer:${VERSION:-latest}
+    build:
+      context: .
+      dockerfile: Doppler.ImageAnalysisApi/Dockerfile
+      target: ${DOCKER_BUILD_TARGET:-final}
+
