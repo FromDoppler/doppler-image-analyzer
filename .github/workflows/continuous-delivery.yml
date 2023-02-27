@@ -34,16 +34,17 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME_PRIV }}
         password: ${{ secrets.DOCKERHUB_TOKEN_PRIV }}
 
-    - name: Docker images latest
-      run: |
-          docker-compose build    
-          docker-compose push
-
     - name: Docker images version
       env:
           VERSION: ${{ steps.get_version.outputs.version }}
       run: |
           docker-compose build
+          docker-compose push
+
+    - name: Docker images latest
+      if: ${{ steps.get_version.outputs.is-semver }}  
+      run: |
+          docker-compose build    
           docker-compose push
 
     - name: Docker images version major
