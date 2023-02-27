@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main", "INT" ]
     tags:
-      - v*.*.**
+      - v*.*.*
 
 jobs:
   delivery:
