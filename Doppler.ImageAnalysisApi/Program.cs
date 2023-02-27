@@ -2,6 +2,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
+builder.Configuration.AddJsonFile("/run/secrets/appsettings.Secret.json", true);
 
 // Add services to the container.
 var appConfig = builder.Configuration.GetConfiguration<AppConfiguration>();
