@@ -36,26 +36,26 @@ jobs:
           docker-compose build
           docker-compose push
 
-    - name: Docker images version mayor
+    - name: Docker images version major
       if: ${{ steps.get_version.outputs.is-semver }}
       env:
-          VERSION: v${{ steps.get_version.outputs.mayor }}
+          VERSION: v${{ steps.get_version.outputs.major }}
       run: |
           docker-compose build
           docker-compose push
 
-    - name: Docker images version mayor.minor
+    - name: Docker images version major.minor
       if: ${{ steps.get_version.outputs.is-semver }}
       env:
-          VERSION: v${{ steps.get_version.outputs.mayor }}.${{ steps.get_version.outputs.minor }}
+          VERSION: v${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }}
       run: |
           docker-compose build
           docker-compose push
 
-    - name: Docker images version mayor.minor.patch
+    - name: Docker images version major.minor.patch
       if: ${{ steps.get_version.outputs.is-semver }}
       env:
-          VERSION: v${{ steps.get_version.outputs.mayor }}.${{ steps.get_version.outputs.minor }}.${{ steps.get_version.outputs.patch }}
+          VERSION: v${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }}.${{ steps.get_version.outputs.patch }}
       run: |
           docker-compose build
           docker-compose push
