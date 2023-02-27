@@ -2,7 +2,7 @@
 using Amazon.Rekognition;
 using Amazon.Runtime;
 
-namespace Doppler.ImageAnalysisApi.Services.AmazonRekognition;
+namespace Doppler.ImageAnalyzer.Api.Services.AmazonRekognition;
 
 public static class RekognitionRegistrationExtensions
 {

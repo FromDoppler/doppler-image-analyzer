@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageProcesor;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor;
 public class ImageConfidence : IImageConfidence
 {
     public string? FileName { get; set; }

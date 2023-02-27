@@ -1,13 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Configurations.Interfaces;
-using Doppler.ImageAnalysisApi.Services.ImageProcesor;
-using Doppler.ImageAnalysisApi.Services.AmazonRekognition.Interfaces;
-using Doppler.ImageAnalysisApi.Services.AmazonS3.Interfaces;
-using Doppler.ImageAnalysisApi.Services.ImageDownload.Interfaces;
-using Moq;
-using Xunit;
-using Doppler.ImageAnalysisApi.Services.ImageProcesor.Enums;
-
-namespace Doppler.ImageAnalysis.UnitTests.Api.Services;
+﻿namespace Doppler.ImageAnalyzer.UnitTests.Api.Services;
 
 public class ImageProcessorTests
 {

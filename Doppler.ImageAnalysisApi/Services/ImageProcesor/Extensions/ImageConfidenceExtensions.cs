@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageProcesor.Extensions;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor.Extensions;
 
 public static class ImageConfidenceExtensions
 {

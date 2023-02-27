@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Doppler.ImageAnalysisApi.Services.ImageUrlExtractor;
+namespace Doppler.ImageAnalyzer.Api.Services.ImageUrlExtractor;
 
 public partial class ImageUrlExtractor : IImageUrlExtractor
 {

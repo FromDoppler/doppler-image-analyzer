@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Doppler.ImageAnalysisApi.Controllers
+namespace Doppler.ImageAnalyzer.Api.Controllers
 {
     public abstract class DopplerControllerBase : ControllerBase
     {

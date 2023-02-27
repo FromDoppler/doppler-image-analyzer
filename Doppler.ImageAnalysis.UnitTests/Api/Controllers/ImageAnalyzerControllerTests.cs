@@ -1,14 +1,4 @@
-﻿using Doppler.ImageAnalysisApi.Api;
-using Doppler.ImageAnalysisApi.Controllers;
-using Doppler.ImageAnalysisApi.Features.Analysis.Requests;
-using Doppler.ImageAnalysisApi.Features.Analysis.Responses;
-using Doppler.ImageAnalysisApi.Services.ImageProcesor.Enums;
-using MediatR;
-using Moq;
-using System.Net;
-using Xunit;
-
-namespace Doppler.ImageAnalysis.UnitTests.Api.Controllers
+﻿namespace Doppler.ImageAnalyzer.UnitTests.Api.Controllers
 {
     public class ImageAnalyzerControllerTests
     {

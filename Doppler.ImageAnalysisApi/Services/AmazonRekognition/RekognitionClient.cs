@@ -1,7 +1,7 @@
 ﻿using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
 
-namespace Doppler.ImageAnalysisApi.Services.AmazonRekognition;
+namespace Doppler.ImageAnalyzer.Api.Services.AmazonRekognition;
 
 public class RekognitionClient : IRekognitionClient
 {

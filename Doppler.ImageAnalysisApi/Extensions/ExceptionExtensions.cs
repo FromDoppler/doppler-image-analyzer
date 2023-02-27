@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Doppler.ImageAnalysisApi.Extensions
+namespace Doppler.ImageAnalyzer.Api.Extensions
 {
     public static class ExceptionExtensions
     {

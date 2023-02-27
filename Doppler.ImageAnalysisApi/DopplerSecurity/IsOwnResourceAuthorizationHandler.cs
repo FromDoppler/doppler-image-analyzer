@@ -1,11 +1,6 @@
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace Doppler.ImageAnalysisApi.DopplerSecurity
 {

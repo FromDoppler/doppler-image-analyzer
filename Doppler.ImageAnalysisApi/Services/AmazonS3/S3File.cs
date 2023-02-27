@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.AmazonS3;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.AmazonS3;
 public class S3File : IS3File
 {
     public string? BucketName { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Features.Analysis.Commands.AnalyzeImageList;
+﻿namespace Doppler.ImageAnalyzer.Api.Features.Analysis.Commands.AnalyzeImageList;
 
 public partial class AnalyzeImageListCommand
 {

@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageDownload;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageDownload;
 
 public class ImageDownloadClient : IImageDownloadClient
 {

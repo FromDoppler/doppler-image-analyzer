@@ -1,6 +1,6 @@
 ﻿using Amazon.S3;
 
-namespace Doppler.ImageAnalysisApi.Services.AmazonS3;
+namespace Doppler.ImageAnalyzer.Api.Services.AmazonS3;
 
 public class S3Client : IS3Client
 {

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Doppler.ImageAnalysisApi.Controllers
+namespace Doppler.ImageAnalyzer.Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]/[action]")]

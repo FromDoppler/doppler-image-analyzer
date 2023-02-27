@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace Doppler.ImageAnalysis.UnitTests.Api.Services;
+﻿namespace Doppler.ImageAnalyzer.UnitTests.Api.Services;
 
 public class ImageUrlExtractor
 {
@@ -9,7 +7,7 @@ public class ImageUrlExtractor
     public void ExtractImageUrls_GivenValidHtml_ShouldReturnListOfImageUrls()
     {
         string html = "<html><body><img src='http://www.test.com/image1.jpg' /><img src='http://test.com/image2.jpg' /></body></html>";
-        var extractor = new ImageAnalysisApi.Services.ImageUrlExtractor.ImageUrlExtractor();
+        var extractor = new ImageAnalyzer.Api.Services.ImageUrlExtractor.ImageUrlExtractor();
 
         List<string> imageUrls = extractor.Extract(html);
 
@@ -20,7 +18,7 @@ public class ImageUrlExtractor
     public void ExtractImageUrls_GivenInvalidHtml_ShouldReturnEmptyList()
     {
         string html = "invalid HTML";
-        var extractor = new ImageAnalysisApi.Services.ImageUrlExtractor.ImageUrlExtractor();
+        var extractor = new ImageAnalyzer.Api.Services.ImageUrlExtractor.ImageUrlExtractor();
 
         List<string> imageUrls = extractor.Extract(html);
 
@@ -31,7 +29,7 @@ public class ImageUrlExtractor
     public void ExtractImageUrls_GivenHtmlWithEmptyOrInvalidImages_ShouldReturnEmptyList()
     {
         string html = "<html><body><img src='' /><img src='/image1.jpg' /><img src='test.com image2.jpg' /></body></html>";
-        var extractor = new ImageAnalysisApi.Services.ImageUrlExtractor.ImageUrlExtractor();
+        var extractor = new ImageAnalyzer.Api.Services.ImageUrlExtractor.ImageUrlExtractor();
 
         List<string> imageUrls = extractor.Extract(html);
 
@@ -42,7 +40,7 @@ public class ImageUrlExtractor
     public void TestIsValidUrl()
     {
         string validHttpUrl = "http://www.google.com";
-        var extractor = new ImageAnalysisApi.Services.ImageUrlExtractor.ImageUrlExtractor();
+        var extractor = new ImageAnalyzer.Api.Services.ImageUrlExtractor.ImageUrlExtractor();
 
         Assert.True(extractor.IsValidUrl(validHttpUrl));
 

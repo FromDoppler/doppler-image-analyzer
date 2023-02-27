@@ -1,4 +1,4 @@
-namespace Doppler.ImageAnalysisApi.Services.ImageUrlExtractor.Interfaces;
+namespace Doppler.ImageAnalyzer.Api.Services.ImageUrlExtractor.Interfaces;
 
 public interface IImageUrlExtractor
 {

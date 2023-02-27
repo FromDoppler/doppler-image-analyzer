@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageAnalysis;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageAnalysis;
 
 public class AnalysisOrchestrator : IAnalysisOrchestrator
 {

@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Configurations.Amazon;
+﻿namespace Doppler.ImageAnalyzer.Api.Configurations.Amazon;
 
 public class AmazonConfiguration
 {

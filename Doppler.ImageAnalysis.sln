@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalysisApi", "Doppler.ImageAnalysisApi\Doppler.ImageAnalysisApi.csproj", "{F1FB0FA7-B786-4894-99E8-853D2B9520CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.Api", "Doppler.ImageAnalysisApi\Doppler.ImageAnalyzer.Api.csproj", "{F1FB0FA7-B786-4894-99E8-853D2B9520CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalysis.UnitTests", "Doppler.ImageAnalysis.UnitTests\Doppler.ImageAnalysis.UnitTests.csproj", "{F8C0E449-8003-49BB-841E-FAECBA473AB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.UnitTests", "Doppler.ImageAnalysis.UnitTests\Doppler.ImageAnalyzer.UnitTests.csproj", "{F8C0E449-8003-49BB-841E-FAECBA473AB1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{BD9D5BFB-930C-4FC8-8734-41B5740EC692}"
 	ProjectSection(SolutionItems) = preProject

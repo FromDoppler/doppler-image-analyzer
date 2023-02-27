@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Doppler.ImageAnalysisApi.Api
+namespace Doppler.ImageAnalyzer.Api.Api
 {
     public class Response
     {

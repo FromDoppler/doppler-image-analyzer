@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Features.Analysis.Commands.AnalyzeHtml;
+﻿namespace Doppler.ImageAnalyzer.Api.Features.Analysis.Commands.AnalyzeHtml;
 
 public partial class AnalyzeHtmlCommand
 {

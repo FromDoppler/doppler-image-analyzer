@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageDownload.Interfaces;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageDownload.Interfaces;
 
 public interface IImageDownloadClient
 {

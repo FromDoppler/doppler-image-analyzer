@@ -1,6 +1,6 @@
 ﻿using Amazon.Rekognition.Model;
 
-namespace Doppler.ImageAnalysisApi.Services.AmazonRekognition.Extensions;
+namespace Doppler.ImageAnalyzer.Api.Services.AmazonRekognition.Extensions;
 
 public static class LabelExtensions
 {

@@ -1,5 +1,3 @@
-using System.Reflection;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 builder.Configuration.AddJsonFile("/run/secrets/appsettings.Secret.json", true);

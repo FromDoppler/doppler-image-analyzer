@@ -2,7 +2,7 @@
 using Amazon.Runtime;
 using Amazon.S3;
 
-namespace Doppler.ImageAnalysisApi.Services.AmazonS3;
+namespace Doppler.ImageAnalyzer.Api.Services.AmazonS3;
 
 public static class S3RegistrationExtensions
 {

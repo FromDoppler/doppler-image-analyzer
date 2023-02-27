@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Configurations;
+﻿namespace Doppler.ImageAnalyzer.Api.Configurations;
 
 public static class ConfigurationExtensions
 {

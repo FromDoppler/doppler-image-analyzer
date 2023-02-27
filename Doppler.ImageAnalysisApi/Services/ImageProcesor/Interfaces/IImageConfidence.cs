@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageProcesor.Interfaces;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor.Interfaces;
 
 public interface IImageConfidence
 {

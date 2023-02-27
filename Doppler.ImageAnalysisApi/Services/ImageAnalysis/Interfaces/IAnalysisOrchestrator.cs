@@ -1,4 +1,6 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageAnalysis.Interfaces;
+﻿using Doppler.ImageAnalyzer.Api.Features.Analysis.Responses;
+
+namespace Doppler.ImageAnalyzer.Api.Services.ImageAnalysis.Interfaces;
 
 public interface IAnalysisOrchestrator
 {

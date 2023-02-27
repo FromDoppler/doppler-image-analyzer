@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Features.Analysis.Requests
+﻿namespace Doppler.ImageAnalyzer.Api.Features.Analysis.Requests
 {
     public class AnalyzeImageListRequest
     {

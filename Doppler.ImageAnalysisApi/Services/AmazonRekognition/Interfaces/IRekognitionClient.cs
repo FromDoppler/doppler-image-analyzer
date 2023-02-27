@@ -1,4 +1,7 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.AmazonRekognition.Interfaces;
+﻿using Doppler.ImageAnalyzer.Api.Services.AmazonS3.Interfaces;
+using Doppler.ImageAnalyzer.Api.Services.ImageProcesor.Interfaces;
+
+namespace Doppler.ImageAnalyzer.Api.Services.AmazonRekognition.Interfaces;
 
 public interface IRekognitionClient
 {

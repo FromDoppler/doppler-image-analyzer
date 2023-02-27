@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalysisApi.Services.ImageProcesor.Enums;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor.Enums;
 
 public enum AnalysisType
 {
