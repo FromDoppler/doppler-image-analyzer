@@ -5,6 +5,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 var appConfig = builder.Configuration.GetConfiguration<AppConfiguration>();
+builder.Services.AddDopplerSecurity();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
