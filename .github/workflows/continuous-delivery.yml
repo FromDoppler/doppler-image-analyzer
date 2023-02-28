@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-        FULL_VERSION: "${{ github.repository }}-${{ github.ref_name }}-commit-${{ github.sha }}"
+        FULL_VERSION: "${{ github.repository }}:${{ github.ref_name }}+${{ github.sha }}"
     
     steps:
     - uses: actions/checkout@v3
