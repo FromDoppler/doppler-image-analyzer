@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 builder.Configuration.AddJsonFile("/run/secrets/appsettings.Secret.json", true);
@@ -8,7 +10,34 @@ builder.Services.AddDopplerSecurity();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer",
+        new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter the token into field as 'Bearer {token}'",
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer"
+        });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference { Id = "Bearer", Type = ReferenceType.SecurityScheme },
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
+
+    var baseUrl = builder.Configuration.GetValue<string>("BaseURL");
+    if (!string.IsNullOrEmpty(baseUrl))
+    {
+        c.AddServer(new OpenApiServer() { Url = baseUrl });
+    };
+});
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddOperationsLogic(appConfig);
 
@@ -17,11 +46,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseStaticFiles();
 
