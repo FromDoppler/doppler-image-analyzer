@@ -1,87 +1,86 @@
-﻿namespace Doppler.ImageAnalyzer.UnitTests.Api.Controllers
+﻿namespace Doppler.ImageAnalyzer.UnitTests.Api.Controllers;
+
+public class ImageAnalyzerControllerTests
 {
-    public class ImageAnalyzerControllerTests
+    private readonly Mock<IMediator> _mediatorMock;
+
+    public ImageAnalyzerControllerTests()
     {
-        private readonly Mock<IMediator> _mediatorMock;
+        _mediatorMock = new Mock<IMediator>();
+    }
 
-        public ImageAnalyzerControllerTests()
-        {
-            _mediatorMock = new Mock<IMediator>();
-        }
+    [Fact]
+    public async Task AnalyzeHtml_ShouldCallMediator_WhenSuccess()
+    {
+        var html = "<html><div>Your account has been verified.</div></html>";
 
-        [Fact]
-        public async Task AnalyzeHtml_ShouldCallMediator_WhenSuccess()
-        {
-            var html = "<html><div>Your account has been verified.</div></html>";
+        _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
+                     .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
 
-            _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
-                         .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
+        var controller = new ImageAnalyzerController(_mediatorMock.Object);
+        var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
 
-            var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
+        var result = await controller.AnalyzeHtml(request, default);
 
-            var result = await controller.AnalyzeHtml(request, default);
+        Assert.NotNull(result);
+        Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 200);
+        _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
+    }
 
-            Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 200);
-            _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
-        }
+    [Fact]
+    public async Task AnalyzeHtml_ShouldReturnBadRequest_WhenHtmlIsEmpty()
+    {
+        var html = string.Empty;
 
-        [Fact]
-        public async Task AnalyzeHtml_ShouldReturnBadRequest_WhenHtmlIsEmpty()
-        {
-            var html = string.Empty;
+        _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
+                     .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
 
-            _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
-                         .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
+        var controller = new ImageAnalyzerController(_mediatorMock.Object);
+        var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
 
-            var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
+        var result = await controller.AnalyzeHtml(request, default);
 
-            var result = await controller.AnalyzeHtml(request, default);
+        Assert.NotNull(result);
+        Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 400);
+        _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
+    }
 
-            Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 400);
-            _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
-        }
+    [Fact]
+    public async Task AnalyzeImageList_ShouldCallMediator_WhenSuccess()
+    {
+        var imageUrls = new List<string>{
+            "ImageFile.jpg"
+        };
 
-        [Fact]
-        public async Task AnalyzeImageList_ShouldCallMediator_WhenSuccess()
-        {
-            var imageUrls = new List<string>{
-                "ImageFile.jpg"
-            };
+        _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
+                     .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
 
-            _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
-                         .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
+        var controller = new ImageAnalyzerController(_mediatorMock.Object);
+        var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
 
-            var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
+        var result = await controller.AnalyzeImageList(request, default);
 
-            var result = await controller.AnalyzeImageList(request, default);
+        Assert.NotNull(result);
+        Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 200);
+        _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
+    }
 
-            Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 200);
-            _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
-        }
+    [Fact]
+    public async Task AnalyzeImageList_ShouldReturnBadRequest_WhenHtmlIsEmpty()
+    {
+        var imageUrls = new List<string>{
+            "ImageFile.jpg"
+        };
+        _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
+                     .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
 
-        [Fact]
-        public async Task AnalyzeImageList_ShouldReturnBadRequest_WhenHtmlIsEmpty()
-        {
-            var imageUrls = new List<string>{
-                "ImageFile.jpg"
-            };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
-                         .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
+        var controller = new ImageAnalyzerController(_mediatorMock.Object);
+        var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
 
-            var controller = new ImageAnalyzerController(_mediatorMock.Object);
-            var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
+        var result = await controller.AnalyzeImageList(request, default);
 
-            var result = await controller.AnalyzeImageList(request, default);
-
-            Assert.NotNull(result);
-            Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 400);
-            _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
-        }
+        Assert.NotNull(result);
+        Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 400);
+        _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
     }
 }

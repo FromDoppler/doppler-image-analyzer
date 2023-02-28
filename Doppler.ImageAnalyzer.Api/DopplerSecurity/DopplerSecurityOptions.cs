@@ -1,9 +1,8 @@
 using Microsoft.IdentityModel.Tokens;
 
-namespace Doppler.ImageAnalyzer.Api.DopplerSecurity
+namespace Doppler.ImageAnalyzer.Api.DopplerSecurity;
+
+public class DopplerSecurityOptions
 {
-    public class DopplerSecurityOptions
-    {
-        public IEnumerable<SecurityKey> SigningKeys { get; set; } = Array.Empty<SecurityKey>();
-    }
+    public IEnumerable<SecurityKey> SigningKeys { get; set; } = Array.Empty<SecurityKey>();
 }
