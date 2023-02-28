@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.Api", "Doppler.ImageAnalysisApi\Doppler.ImageAnalyzer.Api.csproj", "{F1FB0FA7-B786-4894-99E8-853D2B9520CB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.UnitTests", "Doppler.ImageAnalysis.UnitTests\Doppler.ImageAnalyzer.UnitTests.csproj", "{F8C0E449-8003-49BB-841E-FAECBA473AB1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{BD9D5BFB-930C-4FC8-8734-41B5740EC692}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
@@ -15,20 +11,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.Api", "Doppler.ImageAnalyzer.Api\Doppler.ImageAnalyzer.Api.csproj", "{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.UnitTests", "Doppler.ImageAnalyzer.UnitTests\Doppler.ImageAnalyzer.UnitTests.csproj", "{50343922-EE19-40DD-ACB2-91D4AE551765}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F1FB0FA7-B786-4894-99E8-853D2B9520CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1FB0FA7-B786-4894-99E8-853D2B9520CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1FB0FA7-B786-4894-99E8-853D2B9520CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1FB0FA7-B786-4894-99E8-853D2B9520CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8C0E449-8003-49BB-841E-FAECBA473AB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8C0E449-8003-49BB-841E-FAECBA473AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8C0E449-8003-49BB-841E-FAECBA473AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8C0E449-8003-49BB-841E-FAECBA473AB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

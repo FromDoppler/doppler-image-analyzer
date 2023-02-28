@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Doppler.ImageAnalysisApi\Doppler.ImageAnalyzer.Api.csproj" />
+    <ProjectReference Include="..\Doppler.ImageAnalyzer.Api\Doppler.ImageAnalyzer.Api.csproj" />
   </ItemGroup>
 
 </Project>
