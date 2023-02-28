@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{BD9D5BFB-930C-4FC8-8734-41B5740EC692}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.Api", "Doppler.ImageAnalyzer.Api\Doppler.ImageAnalyzer.Api.csproj", "{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doppler.ImageAnalyzer.UnitTests", "Doppler.ImageAnalyzer.UnitTests\Doppler.ImageAnalyzer.UnitTests.csproj", "{50343922-EE19-40DD-ACB2-91D4AE551765}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC3E370-8393-49D3-9A8D-E7E3A9193FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50343922-EE19-40DD-ACB2-91D4AE551765}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8EBD0AFB-29C2-4481-9ADE-0EE8731DFD1C}
+	EndGlobalSection
+EndGlobal
