@@ -11,6 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+        FULL_VERSION: "${{ github.repository }}-${{ github.ref_name }}-commit-${{ github.sha }}"
+    
     steps:
     - uses: actions/checkout@v3
 
@@ -20,6 +23,7 @@ jobs:
   
     - name: Version identified
       run: |
+        echo "full-version: $FULL_VERSION"
         echo "version: ${{ steps.get_version.outputs.version}}"
         echo "is-semver: ${{ steps.get_version.outputs.is-semver }}"
         echo "major: ${{ steps.get_version.outputs.major }}"

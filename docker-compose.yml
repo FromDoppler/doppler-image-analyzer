@@ -7,4 +7,6 @@ services:
       context: .
       dockerfile: Doppler.ImageAnalysisApi/Dockerfile
       target: ${DOCKER_BUILD_TARGET:-final}
+      args: 
+        version: ${FULL_VERSION}
 
