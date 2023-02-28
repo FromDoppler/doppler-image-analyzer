@@ -1,34 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Doppler.ImageAnalyzer.Api.Controllers
+namespace Doppler.ImageAnalyzer.Api.Controllers;
+
+public abstract class DopplerControllerBase : ControllerBase
 {
-    public abstract class DopplerControllerBase : ControllerBase
+    protected readonly IMediator _mediator;
+
+    protected DopplerControllerBase(IMediator mediator)
     {
-        protected readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        protected DopplerControllerBase(IMediator mediator)
+    protected ActionResult HandleResponse(Response response, string logMessage)
+    {
+        if (!response.IsSuccessStatusCode)
         {
-            _mediator = mediator;
+            return StatusCode((int)response.StatusCode, response.ValidationIssue);
         }
 
-        protected ActionResult HandleResponse(Response response, string logMessage)
-        {
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int)response.StatusCode, response.ValidationIssue);
-            }
+        return Ok();
+    }
 
-            return Ok();
+    protected ActionResult HandleResponse<T>(Response<T> response, string logMessage)
+    {
+        if (!response.IsSuccessStatusCode)
+        {
+            return StatusCode((int)response.StatusCode, response.ValidationIssue);
         }
 
-        protected ActionResult HandleResponse<T>(Response<T> response, string logMessage)
-        {
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int)response.StatusCode, response.ValidationIssue);
-            }
-
-            return Ok(response.Payload);
-        }
+        return Ok(response.Payload);
     }
 }

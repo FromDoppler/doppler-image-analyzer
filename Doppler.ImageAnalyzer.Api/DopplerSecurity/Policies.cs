@@ -1,8 +1,7 @@
-namespace Doppler.ImageAnalyzer.Api.DopplerSecurity
+namespace Doppler.ImageAnalyzer.Api.DopplerSecurity;
+
+public static class Policies
 {
-    public static class Policies
-    {
-        public const string OnlySuperUser = nameof(OnlySuperUser);
-        public const string OwnResourceOrSuperUser = nameof(OwnResourceOrSuperUser);
-    }
+    public const string OnlySuperUser = nameof(OnlySuperUser);
+    public const string OwnResourceOrSuperUser = nameof(OwnResourceOrSuperUser);
 }
