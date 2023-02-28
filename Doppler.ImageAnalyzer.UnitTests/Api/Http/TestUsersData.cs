@@ -1,4 +1,4 @@
-namespace Doppler.ImageAnalysis.UnitTests.Api.Http;
+namespace Doppler.ImageAnalyzer.UnitTests.Api.Http;
 
 public static class TestUsersData
 {

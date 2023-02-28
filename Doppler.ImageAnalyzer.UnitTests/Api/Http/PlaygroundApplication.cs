@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
 
-namespace Doppler.ImageAnalysis.UnitTests.Api.Http;
+namespace Doppler.ImageAnalyzer.UnitTests.Api.Http;
 
 class PlaygroundApplication : WebApplicationFactory<Program>
 {
