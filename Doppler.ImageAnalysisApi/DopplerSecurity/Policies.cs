@@ -1,4 +1,4 @@
-namespace Doppler.ImageAnalysisApi.DopplerSecurity
+namespace Doppler.ImageAnalyzer.Api.DopplerSecurity
 {
     public static class Policies
     {

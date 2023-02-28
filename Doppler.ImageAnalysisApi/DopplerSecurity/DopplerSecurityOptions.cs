@@ -1,6 +1,6 @@
 using Microsoft.IdentityModel.Tokens;
 
-namespace Doppler.ImageAnalysisApi.DopplerSecurity
+namespace Doppler.ImageAnalyzer.Api.DopplerSecurity
 {
     public class DopplerSecurityOptions
     {

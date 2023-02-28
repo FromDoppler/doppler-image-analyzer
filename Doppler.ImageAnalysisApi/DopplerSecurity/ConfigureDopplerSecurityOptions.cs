@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
-namespace Doppler.ImageAnalysisApi.DopplerSecurity
+namespace Doppler.ImageAnalyzer.Api.DopplerSecurity
 {
     public class ConfigureDopplerSecurityOptions : IConfigureOptions<DopplerSecurityOptions>
     {

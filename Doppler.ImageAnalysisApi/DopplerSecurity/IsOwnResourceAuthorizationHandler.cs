@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
-namespace Doppler.ImageAnalysisApi.DopplerSecurity
+namespace Doppler.ImageAnalyzer.Api.DopplerSecurity
 {
     public partial class IsOwnResourceAuthorizationHandler : AuthorizationHandler<DopplerAuthorizationRequirement>
     {

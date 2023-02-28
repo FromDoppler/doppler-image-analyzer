@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Doppler.ImageAnalysisApi.DopplerSecurity
+namespace Doppler.ImageAnalyzer.Api.DopplerSecurity
 {
     public partial class IsSuperUserAuthorizationHandler : AuthorizationHandler<DopplerAuthorizationRequirement>
     {

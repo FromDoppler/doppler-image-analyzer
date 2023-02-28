@@ -1,4 +1,4 @@
-using Doppler.ImageAnalysisApi.DopplerSecurity;
+using Doppler.ImageAnalyzer.Api.DopplerSecurity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
