@@ -7,18 +7,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Doppler.ImageAnalysisApi/Doppler.ImageAnalysisApi.csproj", "Doppler.ImageAnalysisApi/"]
-RUN dotnet restore "Doppler.ImageAnalysisApi/Doppler.ImageAnalysisApi.csproj"
+COPY ["Doppler.ImageAnalysisApi/Doppler.ImageAnalyzer.Api.csproj", "Doppler.ImageAnalyzer.Api/"]
+RUN dotnet restore "Doppler.ImageAnalysisApi/Doppler.ImageAnalyzer.Api.csproj"
 COPY . .
 WORKDIR "/src/Doppler.ImageAnalysisApi"
-RUN dotnet build "Doppler.ImageAnalysisApi.csproj" -c Release -o /app/build
+RUN dotnet build "Doppler.ImageAnalyzer.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Doppler.ImageAnalysisApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Doppler.ImageAnalyzer.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ARG version=unknown
 RUN echo $version > /app/wwwroot/version.txt
-ENTRYPOINT ["dotnet", "Doppler.ImageAnalysisApi.dll"]
+ENTRYPOINT ["dotnet", "Doppler.ImageAnalyzer.Api.dll"]
