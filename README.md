@@ -1,4 +1,4 @@
-# doppler-image-analysis-api
+# doppler-image-analyzer
 
 ## _Tool for image content analysis_ 
 
