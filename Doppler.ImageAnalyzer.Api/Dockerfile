@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Doppler.ImageAnalysisApi/Doppler.ImageAnalyzer.Api.csproj", "Doppler.ImageAnalyzer.Api/"]
-RUN dotnet restore "Doppler.ImageAnalysisApi/Doppler.ImageAnalyzer.Api.csproj"
+COPY ["Doppler.ImageAnalyzer.Api/Doppler.ImageAnalyzer.Api.csproj", "Doppler.ImageAnalyzer.Api/"]
+RUN dotnet restore "Doppler.ImageAnalyzer.Api/Doppler.ImageAnalyzer.Api.csproj"
 COPY . .
-WORKDIR "/src/Doppler.ImageAnalysisApi"
+WORKDIR "/src/Doppler.ImageAnalyzer.Api"
 RUN dotnet build "Doppler.ImageAnalyzer.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
