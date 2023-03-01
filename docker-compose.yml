@@ -8,5 +8,5 @@ services:
       dockerfile: Doppler.ImageAnalyzer.Api/Dockerfile
       target: ${DOCKER_BUILD_TARGET:-final}
       args: 
-        version: ${FULL_VERSION}
+        version: ${DOCKER_REGISTRY-}${DOCKER_NAMESPACE:-dopplerdock}/doppler-image-analyzer:${SOURCE_VERSION}
 
