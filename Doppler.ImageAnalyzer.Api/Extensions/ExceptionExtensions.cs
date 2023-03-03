@@ -13,12 +13,4 @@ public static class ExceptionExtensions
             : exception.ToString(); // Kept for backward compatibility.
         return Response.GetResponseError<T>(statusCode: HttpStatusCode.InternalServerError, errorKey: UnexpectedErrorKey, errorDescription: description, exception: exception);
     }
-
-    public static Response ToResponse(this Exception exception, string? referenceId = null)
-    {
-        var description = referenceId != null
-            ? $"ReferenceId: {referenceId}"
-            : exception.ToString(); // Kept for backward compatibility.
-        return Response.GetResponseError(statusCode: HttpStatusCode.InternalServerError, errorKey: UnexpectedErrorKey, errorDescription: description, exception: exception);
-    }
 }

@@ -1,8 +1,8 @@
-﻿using Amazon.Rekognition;
+﻿using Amazon.Rekognition.Model;
 using Doppler.ImageAnalyzer.Api.Configurations;
 using Doppler.ImageAnalyzer.Api.Configurations.Amazon;
-using Doppler.ImageAnalyzer.Api.Configurations.Interfaces;
-using Doppler.ImageAnalyzer.Api.Services.AmazonRekognition;
+using Doppler.ImageAnalyzer.Api.Services.AmazonRekognition.Extensions;
+using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace Doppler.ImageAnalyzer.UnitTests.Api.Services;
@@ -97,4 +97,6 @@ public class ImageProcessorTests
         Assert.False(result == null);
         Assert.True(result.Count() == confidenceCount);
     }
+
+
 }

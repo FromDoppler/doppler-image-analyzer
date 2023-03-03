@@ -81,4 +81,20 @@ public class AnalysisImageListTests
         Assert.True(response.Payload != null);
         Assert.True(response.Payload.Count == 1);
     }
+
+    [Fact]
+    public async Task AnalyzeImageList_GivenWrongAnalysisType_ShouldReturnEmptyAnalysisList()
+    {
+        _imageProcessor.Setup(x => x.ProcessImage(It.IsAny<string>(), It.IsAny<AnalysisType>(), CancellationToken.None))
+           .ReturnsAsync(new List<ImageConfidence> { new ImageConfidence { Confidence = (float?)0.99, FileName = "filename.jpg", IsModeration = true, Label = "Label" } });
+        var command = new AnalyzeImageListCommand.Command { ImageUrls = new List<string> { "http://filename.jpg" }, AnalysisType = "NonExisting" };
+        var handler = new AnalyzeImageListCommand.Handler(_imageUrlExtractor, _analysisOrchestrator);
+
+        var response = await handler.Handle(command, CancellationToken.None);
+
+        Assert.True(response.IsSuccessStatusCode);
+        Assert.True(response.StatusCode == HttpStatusCode.OK);
+        Assert.True(response.Payload != null);
+        Assert.True(response.Payload.Count == 0);
+    }
 }
