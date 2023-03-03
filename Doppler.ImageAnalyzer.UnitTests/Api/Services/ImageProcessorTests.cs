@@ -1,9 +1,4 @@
-﻿using Doppler.ImageAnalyzer.Api.Configurations;
-using Doppler.ImageAnalyzer.Api.Configurations.Amazon;
-using System.Text;
-
-namespace Doppler.ImageAnalyzer.UnitTests.Api.Services;
-
+﻿namespace Doppler.ImageAnalyzer.UnitTests.Api.Services;
 public class ImageProcessorTests
 {
     private readonly Mock<IImageDownloadClient> _imageDownloadClient;
