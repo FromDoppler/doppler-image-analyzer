@@ -32,7 +32,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services
 
             await service.UploadStreamAsync(stream, s3file, CancellationToken.None);
 
-            _amazonS3.Verify(x=> x.UploadObjectFromStreamAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>(), null, CancellationToken.None), Times.Once());
+            _amazonS3.Verify(x => x.UploadObjectFromStreamAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>(), null, CancellationToken.None), Times.Once());
         }
     }
 }

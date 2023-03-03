@@ -23,7 +23,6 @@ public class ImageProcessorTests
             BucketName = "bucketName",
             Path = "/",
         };
-    
         var amazonRekognition = new AmazonRekognitionConfiguration
         {
             MinConfidence = 50,
@@ -48,7 +47,7 @@ public class ImageProcessorTests
     }
 
     [Theory]
-    [InlineData(AnalysisType.ModerationContent,true, 1)]
+    [InlineData(AnalysisType.ModerationContent, true, 1)]
     [InlineData(AnalysisType.AllLabels, true, 2)]
     [InlineData(AnalysisType.ModerationContent, false, 1)]
     [InlineData(AnalysisType.AllLabels, false, 2)]

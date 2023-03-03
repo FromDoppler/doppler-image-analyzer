@@ -31,7 +31,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services
         [Fact]
         public async Task DetectLabels_ReturnListOfConfidences_WhenOk()
         {
-            _amazonRekognition.Setup(x=> x.DetectLabelsAsync(It.IsAny<DetectLabelsRequest>(), CancellationToken.None))
+            _amazonRekognition.Setup(x => x.DetectLabelsAsync(It.IsAny<DetectLabelsRequest>(), CancellationToken.None))
                               .ReturnsAsync(new DetectLabelsResponse());
             var service = new RekognitionClient(_amazonRekognition.Object);
 
