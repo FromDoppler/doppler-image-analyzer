@@ -2,7 +2,6 @@
 using Amazon.Rekognition.Model;
 using Doppler.ImageAnalyzer.Api.Services.AmazonRekognition;
 using Doppler.ImageAnalyzer.Api.Services.AmazonS3;
-using System.Xml.Linq;
 
 namespace Doppler.ImageAnalyzer.UnitTests.Api.Services
 {

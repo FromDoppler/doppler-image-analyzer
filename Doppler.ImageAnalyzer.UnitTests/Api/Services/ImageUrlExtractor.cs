@@ -64,6 +64,4 @@ public class ImageUrlExtractor
 
         Assert.False(extractor.IsValidUrl(invalidCharacterUrl));
     }
-
-
 }
