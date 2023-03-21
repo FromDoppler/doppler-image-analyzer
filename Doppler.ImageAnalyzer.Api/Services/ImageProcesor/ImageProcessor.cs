@@ -14,7 +14,7 @@ public class ImageProcessor : IImageProcessor
         _rekognitionClient = rekognitionClient;
         _appConfiguration = appConfiguration;
     }
-    
+ 
     public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, AnalysisType? analysisType = AnalysisType.ModerationContent, CancellationToken cancellationToken = default)
     {
         var stream = await _imageDownloadClient.GetImageStream(url, cancellationToken);
