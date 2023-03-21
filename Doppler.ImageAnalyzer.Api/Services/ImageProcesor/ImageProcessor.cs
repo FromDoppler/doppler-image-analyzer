@@ -1,8 +1,4 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.ImageProcesor.Enums;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.Xml;
-
-namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor;
+﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor;
 
 public class ImageProcessor : IImageProcessor
 {
@@ -18,13 +14,12 @@ public class ImageProcessor : IImageProcessor
         _rekognitionClient = rekognitionClient;
         _appConfiguration = appConfiguration;
     }
+    
     public async Task<IEnumerable<IImageConfidence>?> ProcessImage(string url, AnalysisType? analysisType = AnalysisType.ModerationContent, CancellationToken cancellationToken = default)
     {
         var stream = await _imageDownloadClient.GetImageStream(url, cancellationToken);
         var extension = Path.GetExtension(url);
-        IEnumerable<IImageConfidence>? fileConfidences = new List<IImageConfidence>();
         const string gifExtension = ".gif";
-        const string convertExtension = ".png";
 
         if (Equals(stream, null))
             return null;
@@ -32,23 +27,28 @@ public class ImageProcessor : IImageProcessor
         using Image image = await Image.LoadAsync(stream, cancellationToken);
 
         if (extension == gifExtension)
-        {
-            for (int i = 0; i < image.Frames.Count; i++)
-            {
-                var frame = image.Frames.CloneFrame(i);
+            return await ProcessGifFrames(image, analysisType, cancellationToken);
 
-                MemoryStream ms = new();
-                frame.SaveAsPng(ms);
+        string fileName = $"{Guid.NewGuid()}{extension}";
 
-                string fileName = $"{Guid.NewGuid()}{convertExtension}";
-                var frameConfidences = await ProcessSingleFile(ms, fileName, analysisType, cancellationToken);
-                fileConfidences = frameConfidences == null ? fileConfidences : fileConfidences.Union(frameConfidences);
-            }
-        }
-        else
+        return await ProcessSingleFile(stream, fileName, analysisType, cancellationToken);
+    }
+
+    private async Task<IEnumerable<IImageConfidence>?> ProcessGifFrames(Image image, AnalysisType? analysisType = AnalysisType.ModerationContent, CancellationToken cancellationToken = default)
+    {
+        IEnumerable<IImageConfidence>? fileConfidences = new List<IImageConfidence>();
+        const string convertExtension = ".png";
+
+        for (int i = 0; i < image.Frames.Count; i++)
         {
-            string fileName = $"{Guid.NewGuid()}{extension}";
-            fileConfidences = await ProcessSingleFile(stream, fileName, analysisType, cancellationToken);
+            var frame = image.Frames.CloneFrame(i);
+
+            MemoryStream ms = new();
+            frame.SaveAsPng(ms);
+
+            string fileName = $"{Guid.NewGuid()}{convertExtension}";
+            var frameConfidences = await ProcessSingleFile(ms, fileName, analysisType, cancellationToken);
+            fileConfidences = frameConfidences == null ? fileConfidences : fileConfidences.Union(frameConfidences);
         }
 
         return fileConfidences;
