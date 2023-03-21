@@ -1,4 +1,8 @@
-﻿namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor;
+﻿using Doppler.ImageAnalyzer.Api.Services.ImageProcesor.Enums;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.Xml;
+
+namespace Doppler.ImageAnalyzer.Api.Services.ImageProcesor;
 
 public class ImageProcessor : IImageProcessor
 {
@@ -18,12 +22,40 @@ public class ImageProcessor : IImageProcessor
     {
         var stream = await _imageDownloadClient.GetImageStream(url, cancellationToken);
         var extension = Path.GetExtension(url);
+        IEnumerable<IImageConfidence>? fileConfidences = new List<IImageConfidence>();
+        const string gifExtension = ".gif";
+        const string convertExtension = ".png";
 
         if (Equals(stream, null))
             return null;
 
-        string fileName = $"{Guid.NewGuid()}{extension}";
+        using Image image = await Image.LoadAsync(stream, cancellationToken);
 
+        if (extension == gifExtension)
+        {
+            for (int i = 0; i < image.Frames.Count; i++)
+            {
+                var frame = image.Frames.CloneFrame(i);
+
+                MemoryStream ms = new();
+                frame.SaveAsPng(ms);
+
+                string fileName = $"{Guid.NewGuid()}{convertExtension}";
+                var frameConfidences = await ProcessSingleFile(ms, fileName, analysisType, cancellationToken);
+                fileConfidences = frameConfidences == null ? fileConfidences : fileConfidences.Union(frameConfidences);
+            }
+        }
+        else
+        {
+            string fileName = $"{Guid.NewGuid()}{extension}";
+            fileConfidences = await ProcessSingleFile(stream, fileName, analysisType, cancellationToken);
+        }
+
+        return fileConfidences;
+    }
+
+    private async Task<IEnumerable<IImageConfidence>?> ProcessSingleFile(Stream? stream, string fileName, AnalysisType? analysisType = AnalysisType.ModerationContent, CancellationToken cancellationToken = default)
+    {
         await UploadStreamAsync(stream!, fileName, cancellationToken);
 
         IEnumerable<IImageConfidence> confidences = await GetModerationLabels(fileName, cancellationToken);

@@ -16,7 +16,7 @@ public class RekognitionClient : IRekognitionClient
     {
         var detectModerationLabelsRequest = new DetectModerationLabelsRequest()
         {
-            Image = new Image()
+            Image = new Amazon.Rekognition.Model.Image()
             {
                 S3Object = new S3Object()
                 {
@@ -36,7 +36,7 @@ public class RekognitionClient : IRekognitionClient
     {
         var detectLabelsRequest = new DetectLabelsRequest()
         {
-            Image = new Image()
+            Image = new Amazon.Rekognition.Model.Image()
             {
                 S3Object = new S3Object()
                 {
@@ -57,7 +57,7 @@ public class RekognitionClient : IRekognitionClient
     {
         var detectLabelsRequest = new DetectCustomLabelsRequest()
         {
-            Image = new Image()
+            Image = new Amazon.Rekognition.Model.Image()
             {
                 S3Object = new S3Object()
                 {
