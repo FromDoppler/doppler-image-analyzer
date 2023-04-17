@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   doppler.image.analyzer:
@@ -7,6 +7,5 @@ services:
       context: .
       dockerfile: Doppler.ImageAnalyzer.Api/Dockerfile
       target: ${DOCKER_BUILD_TARGET:-final}
-      args: 
+      args:
         version: ${DOCKER_REGISTRY-}${DOCKER_NAMESPACE:-dopplerdock}/doppler-image-analyzer:${SOURCE_VERSION}
-
