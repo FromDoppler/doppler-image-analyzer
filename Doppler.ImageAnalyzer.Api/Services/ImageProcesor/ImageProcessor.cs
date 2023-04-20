@@ -18,12 +18,43 @@ public class ImageProcessor : IImageProcessor
     {
         var stream = await _imageDownloadClient.GetImageStream(url, cancellationToken);
         var extension = Path.GetExtension(url);
+        const string gifExtension = ".gif";
 
         if (Equals(stream, null))
             return null;
 
+        using Image image = await Image.LoadAsync(stream, cancellationToken);
+
+        if (extension == gifExtension)
+            return await ProcessGifFrames(image, analysisType, cancellationToken);
+
         string fileName = $"{Guid.NewGuid()}{extension}";
 
+        return await ProcessSingleFile(stream, fileName, analysisType, cancellationToken);
+    }
+
+    private async Task<IEnumerable<IImageConfidence>?> ProcessGifFrames(Image image, AnalysisType? analysisType = AnalysisType.ModerationContent, CancellationToken cancellationToken = default)
+    {
+        IEnumerable<IImageConfidence>? fileConfidences = new List<IImageConfidence>();
+        const string convertExtension = ".png";
+
+        for (int i = 0; i < image.Frames.Count; i++)
+        {
+            var frame = image.Frames.CloneFrame(i);
+
+            MemoryStream ms = new();
+            frame.SaveAsPng(ms);
+
+            string fileName = $"{Guid.NewGuid()}{convertExtension}";
+            var frameConfidences = await ProcessSingleFile(ms, fileName, analysisType, cancellationToken);
+            fileConfidences = frameConfidences == null ? fileConfidences : fileConfidences.Union(frameConfidences);
+        }
+
+        return fileConfidences;
+    }
+
+    private async Task<IEnumerable<IImageConfidence>?> ProcessSingleFile(Stream? stream, string fileName, AnalysisType? analysisType = AnalysisType.ModerationContent, CancellationToken cancellationToken = default)
+    {
         await UploadStreamAsync(stream!, fileName, cancellationToken);
 
         IEnumerable<IImageConfidence> confidences = await GetModerationLabels(fileName, cancellationToken);
