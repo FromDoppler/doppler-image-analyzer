@@ -32,7 +32,7 @@ public partial class AnalyzeImageListCommand
 
                 if (request.ImageUrls.Count == 0)
                 {
-                    return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No valid imnage urls to process.");
+                    return Response.CreateBadRequestResponse<List<ImageAnalysisResponse>>("No valid image urls to process.");
                 }
 
                 var payload = await _analysisOrchestrator.ProcessImageList(request.ImageUrls, request.AnalysisType, cancellationToken);

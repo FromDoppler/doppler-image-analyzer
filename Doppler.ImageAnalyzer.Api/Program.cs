@@ -1,4 +1,6 @@
+using Doppler.ImageAnalyzer.Api.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
@@ -40,6 +42,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddOperationsLogic(appConfig);
+builder.Host.UseSerilog((hostContext, loggerConfiguration) =>
+{
+    loggerConfiguration.SetupSeriLog(hostContext.Configuration, hostContext.HostingEnvironment);
+});
 
 var app = builder.Build();
 
