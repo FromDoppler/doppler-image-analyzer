@@ -15,11 +15,11 @@ namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
             var imageAnalizerMongoDBContextSettings = new ImageAnalyzerMongoDBContextSettings();
             mongoDBContextSettingsSection.Bind(imageAnalizerMongoDBContextSettings);
 
-            var mongoUrlBuilder = new MongoUrlBuilder(imageAnalizerMongoDBContextSettings.ConnectionString);
-
-            // when these values were not specified in the "ConnectionString"
-            mongoUrlBuilder.DatabaseName ??= imageAnalizerMongoDBContextSettings.DatabaseName;
-            mongoUrlBuilder.Password ??= imageAnalizerMongoDBContextSettings.Password;
+            var mongoUrlBuilder = new MongoUrlBuilder(imageAnalizerMongoDBContextSettings.ConnectionString)
+            {
+                DatabaseName = imageAnalizerMongoDBContextSettings.DatabaseName,
+                Password = imageAnalizerMongoDBContextSettings.Password,
+            };
 
             var mongoUrl = mongoUrlBuilder.ToMongoUrl();
 
