@@ -8,7 +8,7 @@ public class HttpTests
     [Fact]
     public async Task GET_inexistent_endpoint_should_return_404()
     {
-        await using var application = new PlaygroundApplication("Production");
+        await using var application = new PlaygroundApplication();
 
         using var client = application.CreateClient();
         using var response = await client.GetAsync("/not-found");
@@ -22,7 +22,7 @@ public class HttpTests
     public async Task POST_analyze_endpoint_without_token_should_return_401(string requestUri)
     {
         var content = JsonContent.Create(new { });
-        await using var application = new PlaygroundApplication("Production");
+        await using var application = new PlaygroundApplication();
 
         using var client = application.CreateClient();
         using var response = await client.PostAsync(requestUri, content);
