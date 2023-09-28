@@ -1,4 +1,5 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces;
+﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Collections;
+using Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -12,8 +13,7 @@ namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
         public ImageAnalysisResultService(IMongoClient mongoClient, IOptions<ImageAnalyzerMongoDBContextSettings> mongoContextSettings)
         {
             var database = mongoClient.GetDatabase(mongoContextSettings.Value.DatabaseName);
-            // TODO: locate collection names in constants
-            _collection = database.GetCollection<BsonDocument>("imageAnalysisResults");
+            _collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
         }
 
         public async Task<string> SaveAsync(int statusCode, List<ImageAnalysisResponse>? imageAnalysisResultList, string? errorTitle, string? exceptionMessage)
@@ -22,7 +22,7 @@ namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
             {
                 ObjectId _id = ObjectId.GenerateNewId();
 
-                var imageAnalysisResultDocument = imageAnalysisResultList.ToBsonDocument(_id, statusCode, errorTitle, exceptionMessage);
+                var imageAnalysisResultDocument = imageAnalysisResultList.SerializeToBsonDocument(_id, statusCode, errorTitle, exceptionMessage);
                 await _collection.InsertOneAsync(document: imageAnalysisResultDocument);
 
                 return _id.ToString();

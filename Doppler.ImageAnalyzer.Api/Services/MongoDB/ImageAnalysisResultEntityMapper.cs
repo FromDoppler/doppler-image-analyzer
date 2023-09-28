@@ -1,33 +1,35 @@
-﻿using MongoDB.Bson;
+﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Collections;
+using MongoDB.Bson;
 
 namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
 {
     public static class ImageAnalysisResultEntityMapper
     {
-        public static BsonDocument ToBsonDocument(this List<ImageAnalysisResponse>? results, ObjectId _id, int statusCode, string? errorTitle, string? exceptionMessage)
+        public static BsonDocument SerializeToBsonDocument(this List<ImageAnalysisResponse>? results, ObjectId _id, int statusCode, string? errorTitle, string? exceptionMessage)
         {
             return new BsonDocument
                 {
-                    // TODO: locate fields names in constants
-                    { "_id", _id },
-                    { "result", results != null ? results.ToBsonArray() : BsonNull.Value },
-                    { "imagesCount", results != null ? results.Count : 0 },
-                    { "statusCode", statusCode },
-                    { "errorTitle", !string.IsNullOrEmpty(errorTitle) ? errorTitle : BsonNull.Value },
-                    { "exceptionMessage", !string.IsNullOrEmpty(exceptionMessage) ? exceptionMessage : BsonNull.Value },
+                    { ImageAnalysisResultDocumentInfo.Id_PropName, _id },
+                    { ImageAnalysisResultDocumentInfo.Result_PropName, results != null ? results.SerializeToBsonArray() : BsonNull.Value },
+                    { ImageAnalysisResultDocumentInfo.ImagesCount_PropName, results != null ? results.Count : 0 },
+                    { ImageAnalysisResultDocumentInfo.StatusCode_PropName, statusCode },
+                    { ImageAnalysisResultDocumentInfo.ErrorTitle_PropName, !string.IsNullOrEmpty(errorTitle) ? errorTitle : BsonNull.Value },
+                    { ImageAnalysisResultDocumentInfo.ExceptionMessage_PropName, !string.IsNullOrEmpty(exceptionMessage) ? exceptionMessage : BsonNull.Value },
                 };
         }
 
-        private static BsonArray ToBsonArray(this List<ImageAnalysisResponse> itemList)
+        private static BsonArray SerializeToBsonArray(this List<ImageAnalysisResponse> itemList)
         {
             var bsonArray = new BsonArray();
             foreach (var item in itemList)
             {
                 var bsonItem = new BsonDocument
                 {
-                    // TODO: locate fields names in constants
-                    { "imageUrl", item.ImageUrl },
-                    { "analysisDetail", item.AnalysisDetail != null ? item.AnalysisDetail.ToBsonArray() : BsonNull.Value }
+                    { ImageAnalysisResultDocumentInfo.Result_ImageUrl_PropName, item.ImageUrl },
+                    {
+                        ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_PropName,
+                        item.AnalysisDetail != null ? item.AnalysisDetail.SerializeToBsonArray() : BsonNull.Value
+                    }
                 };
                 bsonArray.Add(bsonItem);
             }
@@ -35,17 +37,16 @@ namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
             return bsonArray;
         }
 
-        private static BsonArray ToBsonArray(this List<ImageAnalysisDetailResponse> itemList)
+        private static BsonArray SerializeToBsonArray(this List<ImageAnalysisDetailResponse> itemList)
         {
             var bsonArray = new BsonArray();
             foreach (var item in itemList)
             {
                 var bsonItem = new BsonDocument
                 {
-                    // TODO: locate fields names in constants
-                    { "confidence", item.Confidence },
-                    { "label", item.Label },
-                    { "isModeration", item.IsModeration }
+                    { ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Confidence_PropName, item.Confidence },
+                    { ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Label_PropName, item.Label },
+                    { ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_IsModeration_PropName, item.IsModeration }
                 };
                 bsonArray.Add(bsonItem);
             }
