@@ -1,5 +1,4 @@
-﻿using Doppler.PushContact.Services;
-using MongoDB.Bson;
+﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces;
 using MongoDB.Driver;
 
 namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
@@ -32,6 +31,8 @@ namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
 
                 return mongoClient;
             });
+
+            services.AddSingleton<IImageAnalysisResultService, ImageAnalysisResultService>();
 
             return services;
         }
