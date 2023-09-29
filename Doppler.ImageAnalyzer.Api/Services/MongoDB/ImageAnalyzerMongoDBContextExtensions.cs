@@ -1,4 +1,6 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces;
+﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Collections;
+using Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
@@ -27,7 +29,21 @@ namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
                 var mongoClient = new MongoClient(mongoUrl);
                 var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
 
-                // TODO: create indexes
+                #region ImageAnalysisResult_Indexes
+
+                var imageAnalysisResult_Collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
+
+                var imageAnalysisResult_StatusCode_Index = new CreateIndexModel<BsonDocument>(
+                    Builders<BsonDocument>.IndexKeys.Ascending(ImageAnalysisResultDocumentInfo.StatusCode_PropName)
+                );
+                imageAnalysisResult_Collection.Indexes.CreateOne(imageAnalysisResult_StatusCode_Index);
+
+                var imageAnalysisResult_ImagesCount_Index = new CreateIndexModel<BsonDocument>(
+                    Builders<BsonDocument>.IndexKeys.Ascending(ImageAnalysisResultDocumentInfo.ImagesCount_PropName)
+                );
+                imageAnalysisResult_Collection.Indexes.CreateOne(imageAnalysisResult_ImagesCount_Index);
+
+                #endregion
 
                 return mongoClient;
             });
