@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
 {
-    public static class ImageAnalysisResultEntityMapper
+    public static class ImageAnalysisResultEntitySerializer
     {
         public static BsonDocument SerializeToBsonDocument(this List<ImageAnalysisResponse>? results, ObjectId _id, int statusCode, string? errorTitle, string? exceptionMessage)
         {
