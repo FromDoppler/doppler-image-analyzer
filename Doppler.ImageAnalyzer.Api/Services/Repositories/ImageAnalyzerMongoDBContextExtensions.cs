@@ -1,9 +1,9 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Collections;
-using Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces;
+﻿using Doppler.ImageAnalyzer.Api.Services.Respositories.Entities;
+using Doppler.ImageAnalyzer.Api.Services.Respositories.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
+namespace Doppler.ImageAnalyzer.Api.Services.Respositories
 {
     public static class ImageAnalyzerMongoDBContextExtensions
     {

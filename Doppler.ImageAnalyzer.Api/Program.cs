@@ -1,5 +1,5 @@
 using Doppler.ImageAnalyzer.Api.Logging;
-using Doppler.ImageAnalyzer.Api.Services.MongoDB;
+using Doppler.ImageAnalyzer.Api.Services.Respositories;
 using Microsoft.OpenApi.Models;
 using Serilog;
 

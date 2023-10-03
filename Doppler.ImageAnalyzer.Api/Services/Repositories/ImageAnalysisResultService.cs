@@ -1,10 +1,10 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB.Collections;
-using Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces;
+﻿using Doppler.ImageAnalyzer.Api.Services.Respositories.Entities;
+using Doppler.ImageAnalyzer.Api.Services.Respositories.Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Doppler.ImageAnalyzer.Api.Services.MongoDB
+namespace Doppler.ImageAnalyzer.Api.Services.Respositories
 {
     public class ImageAnalysisResultService : IImageAnalysisResultService
     {

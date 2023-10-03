@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalyzer.Api.Services.MongoDB.Interfaces
+﻿namespace Doppler.ImageAnalyzer.Api.Services.Respositories.Interfaces
 {
     public interface IImageAnalysisResultService
     {

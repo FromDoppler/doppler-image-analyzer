@@ -1,10 +1,9 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.MongoDB;
-using Microsoft.Extensions.Logging;
+﻿using Doppler.ImageAnalyzer.Api.Services.Respositories;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.MongoDB
+namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Respositories
 {
     public class ImageAnalysisResultServiceTest
     {
