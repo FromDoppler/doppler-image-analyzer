@@ -7,26 +7,26 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
 {
     public class ImageAnalysisResultMongoDBRepositoryTest
     {
-        private static IOptions<ImageAnalyzerMongoDBContextSettings> GetContextSettings()
+        private static IOptions<RepositorySettings> GetRepositorySettings()
         {
-            var mockMongoContextSettings = new Mock<IOptions<ImageAnalyzerMongoDBContextSettings>>();
+            var mockRepositorySettings = new Mock<IOptions<RepositorySettings>>();
 
-            // Configure the mock for IOptions to return a valid ImageAnalyzerMongoDBContextSettings
-            var mockSettings = new ImageAnalyzerMongoDBContextSettings
+            // Configure the mock for IOptions to return a valid RepositorySettings
+            var mockSettings = new RepositorySettings
             {
                 DatabaseName = "databaseName",
                 ConnectionString = "mongodb+srv://username@host.domain.com",
             };
-            mockMongoContextSettings.Setup(s => s.Value)
+            mockRepositorySettings.Setup(s => s.Value)
                 .Returns(mockSettings);
 
-            return mockMongoContextSettings.Object;
+            return mockRepositorySettings.Object;
         }
-        private static ImageAnalysisResultMongoDBRepository CreateSut(IMongoClient? mongoClient = null, IOptions<ImageAnalyzerMongoDBContextSettings>? mongoContextSettings = null)
+        private static ImageAnalysisResultMongoDBRepository CreateSut(IMongoClient? mongoClient = null, IOptions<RepositorySettings>? repositorySettings = null)
         {
             return new ImageAnalysisResultMongoDBRepository(
                 mongoClient ?? Mock.Of<IMongoClient>(),
-                mongoContextSettings ?? Mock.Of<IOptions<ImageAnalyzerMongoDBContextSettings>>()
+                repositorySettings ?? Mock.Of<IOptions<RepositorySettings>>()
             );
         }
 
@@ -50,7 +50,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
             mockMongoClient.Setup(c => c.GetDatabase(It.IsAny<string>(), null))
                 .Returns(mockMongoDatabase.Object);
 
-            var sut = CreateSut(mockMongoClient.Object, GetContextSettings());
+            var sut = CreateSut(mockMongoClient.Object, GetRepositorySettings());
 
             // Act
             // Assert
@@ -94,7 +94,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
                 }
             };
 
-            var sut = CreateSut(mockMongoClient.Object, GetContextSettings());
+            var sut = CreateSut(mockMongoClient.Object, GetRepositorySettings());
 
             // Act
             await sut.SaveAsync(200, imageAnalysisResponse, null, null);

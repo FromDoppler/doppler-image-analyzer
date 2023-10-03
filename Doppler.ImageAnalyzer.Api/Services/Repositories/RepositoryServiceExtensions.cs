@@ -9,17 +9,17 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
     {
         public static IServiceCollection AddMongoDBRepositoryService(this IServiceCollection services, IConfiguration configuration)
         {
-            var mongoDBContextSettingsSection = configuration.GetSection(nameof(ImageAnalyzerMongoDBContextSettings));
+            var repositorySettingsSection = configuration.GetSection(nameof(RepositorySettings));
 
-            services.Configure<ImageAnalyzerMongoDBContextSettings>(mongoDBContextSettingsSection);
+            services.Configure<RepositorySettings>(repositorySettingsSection);
 
-            var imageAnalizerMongoDBContextSettings = new ImageAnalyzerMongoDBContextSettings();
-            mongoDBContextSettingsSection.Bind(imageAnalizerMongoDBContextSettings);
+            var repositorySettings = new RepositorySettings();
+            repositorySettingsSection.Bind(repositorySettings);
 
-            var mongoUrlBuilder = new MongoUrlBuilder(imageAnalizerMongoDBContextSettings.ConnectionString)
+            var mongoUrlBuilder = new MongoUrlBuilder(repositorySettings.ConnectionString)
             {
-                DatabaseName = imageAnalizerMongoDBContextSettings.DatabaseName,
-                Password = imageAnalizerMongoDBContextSettings.Password,
+                DatabaseName = repositorySettings.DatabaseName,
+                Password = repositorySettings.Password,
             };
 
             var mongoUrl = mongoUrlBuilder.ToMongoUrl();

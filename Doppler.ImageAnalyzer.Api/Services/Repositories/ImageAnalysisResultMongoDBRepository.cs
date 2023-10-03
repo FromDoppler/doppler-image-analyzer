@@ -10,9 +10,9 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
     {
         private readonly IMongoCollection<BsonDocument> _collection;
 
-        public ImageAnalysisResultMongoDBRepository(IMongoClient mongoClient, IOptions<ImageAnalyzerMongoDBContextSettings> mongoContextSettings)
+        public ImageAnalysisResultMongoDBRepository(IMongoClient mongoClient, IOptions<RepositorySettings> repositorySettings)
         {
-            var database = mongoClient.GetDatabase(mongoContextSettings.Value.DatabaseName);
+            var database = mongoClient.GetDatabase(repositorySettings.Value.DatabaseName);
             _collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
         }
 

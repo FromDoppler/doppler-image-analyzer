@@ -2,7 +2,7 @@ using MongoDB.Driver;
 
 namespace Doppler.ImageAnalyzer.Api.Services.Repositories
 {
-    public class ImageAnalyzerMongoDBContextSettings
+    public class RepositorySettings
     {
         public string? ConnectionString { get; set; }
 
