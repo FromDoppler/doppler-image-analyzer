@@ -7,27 +7,9 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
 {
     public class ImageAnalysisResultMongoDBRepositoryTest
     {
-        private static IOptions<RepositorySettings> GetRepositorySettings()
+        private static ImageAnalysisResultMongoDBRepository CreateSut(IMongoDatabase? database = null)
         {
-            var mockRepositorySettings = new Mock<IOptions<RepositorySettings>>();
-
-            // Configure the mock for IOptions to return a valid RepositorySettings
-            var mockSettings = new RepositorySettings
-            {
-                DatabaseName = "databaseName",
-                ConnectionString = "mongodb+srv://username@host.domain.com",
-            };
-            mockRepositorySettings.Setup(s => s.Value)
-                .Returns(mockSettings);
-
-            return mockRepositorySettings.Object;
-        }
-        private static ImageAnalysisResultMongoDBRepository CreateSut(IMongoClient? mongoClient = null, IOptions<RepositorySettings>? repositorySettings = null)
-        {
-            return new ImageAnalysisResultMongoDBRepository(
-                mongoClient ?? Mock.Of<IMongoClient>(),
-                repositorySettings ?? Mock.Of<IOptions<RepositorySettings>>()
-            );
+            return new ImageAnalysisResultMongoDBRepository(database ?? Mock.Of<IMongoDatabase>());
         }
 
         [Fact]
@@ -46,11 +28,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
             mockMongoDatabase.Setup(d => d.GetCollection<BsonDocument>(It.IsAny<string>(), null))
                 .Returns(mockMongoCollection.Object);
 
-            // Configure mockMongoClient to return mockMongoDatabase when GetDatabase is called
-            mockMongoClient.Setup(c => c.GetDatabase(It.IsAny<string>(), null))
-                .Returns(mockMongoDatabase.Object);
-
-            var sut = CreateSut(mockMongoClient.Object, GetRepositorySettings());
+            var sut = CreateSut(mockMongoDatabase.Object);
 
             // Act
             // Assert
@@ -73,10 +51,6 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
             mockMongoDatabase.Setup(d => d.GetCollection<BsonDocument>(It.IsAny<string>(), null))
                 .Returns(mockMongoCollection.Object);
 
-            // Configure mockMongoClient to return mockMongoDatabase when GetDatabase is called
-            mockMongoClient.Setup(c => c.GetDatabase(It.IsAny<string>(), null))
-                .Returns(mockMongoDatabase.Object);
-
             var imageAnalysisResponse = new List<ImageAnalysisResponse>()
             {
                 new ImageAnalysisResponse()
@@ -94,7 +68,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
                 }
             };
 
-            var sut = CreateSut(mockMongoClient.Object, GetRepositorySettings());
+            var sut = CreateSut(mockMongoDatabase.Object);
 
             // Act
             await sut.SaveAsync(200, imageAnalysisResponse, null, null);

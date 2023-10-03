@@ -16,19 +16,16 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
             var repositorySettings = new RepositorySettings();
             repositorySettingsSection.Bind(repositorySettings);
 
-            var mongoUrlBuilder = new MongoUrlBuilder(repositorySettings.ConnectionString)
-            {
-                DatabaseName = repositorySettings.DatabaseName,
-                Password = repositorySettings.Password,
-            };
+            var mongoUrlBuilder = new MongoUrlBuilder(repositorySettings.ConnectionString);
+            mongoUrlBuilder.DatabaseName ??= repositorySettings.DefaultDatabaseName;
+            mongoUrlBuilder.Password ??= repositorySettings.SecretPassword;
 
             var mongoUrl = mongoUrlBuilder.ToMongoUrl();
+            var mongoClient = new MongoClient(mongoUrl);
+            var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
 
             services.AddSingleton<IMongoClient>(x =>
             {
-                var mongoClient = new MongoClient(mongoUrl);
-                var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
-
                 #region ImageAnalysisResult_Indexes
 
                 var imageAnalysisResult_Collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
@@ -47,6 +44,7 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
 
                 return mongoClient;
             });
+            services.AddSingleton(x => mongoClient.GetDatabase(mongoUrl.DatabaseName));
 
             services.AddSingleton<IImageAnalysisResultRepository, ImageAnalysisResultMongoDBRepository>();
 

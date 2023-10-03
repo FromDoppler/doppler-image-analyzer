@@ -6,32 +6,14 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
     {
         public string? ConnectionString { get; set; }
 
-        private string? _databaseName;
-        public string? DatabaseName
-        {
-            get
-            {
-                var mongoUrl = new MongoUrl(ConnectionString);
-                return mongoUrl.DatabaseName ?? _databaseName;
-            }
-            set
-            {
-                _databaseName = value;
-            }
-        }
+        /// <summary>
+        /// Default database name to use when is not specified in ConnectionUrl
+        /// </summary>
+        public string DefaultDatabaseName => "imageanalyzer_db";
 
-        private string? _password;
-        public string? Password
-        {
-            get
-            {
-                var mongoUrl = new MongoUrl(ConnectionString);
-                return mongoUrl.Password ?? _password;
-            }
-            set
-            {
-                _password = value;
-            }
-        }
+        /// <summary>
+        /// Secret password to use when is not specified in ConnectionUrl
+        /// </summary>
+        public string SecretPassword { get; set; }
     }
 }
