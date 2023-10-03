@@ -5,9 +5,9 @@ using MongoDB.Driver;
 
 namespace Doppler.ImageAnalyzer.Api.Services.Respositories
 {
-    public static class ImageAnalyzerMongoDBContextExtensions
+    public static class RepositoryServiceExtensions
     {
-        public static IServiceCollection AddImageAnalyzerMongoDBContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMongoDBRepositoryService(this IServiceCollection services, IConfiguration configuration)
         {
             var mongoDBContextSettingsSection = configuration.GetSection(nameof(ImageAnalyzerMongoDBContextSettings));
 
