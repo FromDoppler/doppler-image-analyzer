@@ -1,4 +1,5 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.Respositories.Entities;
+﻿using Doppler.ImageAnalyzer.Api.Services.Repositories.Utilities;
+using Doppler.ImageAnalyzer.Api.Services.Respositories.Entities;
 using Doppler.ImageAnalyzer.Api.Services.Respositories.Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;

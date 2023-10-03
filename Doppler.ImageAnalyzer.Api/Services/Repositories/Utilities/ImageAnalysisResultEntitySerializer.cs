@@ -1,7 +1,7 @@
 ﻿using Doppler.ImageAnalyzer.Api.Services.Respositories.Entities;
 using MongoDB.Bson;
 
-namespace Doppler.ImageAnalyzer.Api.Services.Respositories
+namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Utilities
 {
     public static class ImageAnalysisResultEntitySerializer
     {
