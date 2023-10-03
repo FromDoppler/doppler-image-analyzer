@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 
-namespace Doppler.ImageAnalyzer.Api.Services.Respositories
+namespace Doppler.ImageAnalyzer.Api.Services.Repositories
 {
     public class ImageAnalyzerMongoDBContextSettings
     {

@@ -1,4 +1,4 @@
-﻿using Doppler.ImageAnalyzer.Api.Services.Respositories.Entities;
+﻿using Doppler.ImageAnalyzer.Api.Services.Repositories.Entities;
 using MongoDB.Bson;
 
 namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Utilities

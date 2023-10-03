@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalyzer.Api.Services.Respositories.Interfaces
+﻿namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Interfaces
 {
     public interface IImageAnalysisResultRepository
     {

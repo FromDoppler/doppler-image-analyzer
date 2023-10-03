@@ -1,5 +1,5 @@
 using Doppler.ImageAnalyzer.Api.Logging;
-using Doppler.ImageAnalyzer.Api.Services.Respositories;
+using Doppler.ImageAnalyzer.Api.Services.Repositories;
 using Microsoft.OpenApi.Models;
 using Serilog;
 

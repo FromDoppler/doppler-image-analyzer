@@ -1,4 +1,4 @@
-﻿namespace Doppler.ImageAnalyzer.Api.Services.Respositories.Entities
+﻿namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Entities
 {
     public static class ImageAnalysisResultDocumentInfo
     {
