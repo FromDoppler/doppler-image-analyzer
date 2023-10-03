@@ -48,7 +48,7 @@ namespace Doppler.ImageAnalyzer.Api.Services.Respositories
                 return mongoClient;
             });
 
-            services.AddSingleton<IImageAnalysisResultService, ImageAnalysisResultService>();
+            services.AddSingleton<IImageAnalysisResultRepository, ImageAnalysisResultMongoDBRepository>();
 
             return services;
         }

@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Respositories
 {
-    public class ImageAnalysisResultServiceTest
+    public class ImageAnalysisResultMongoDBRepositoryTest
     {
         private static IOptions<ImageAnalyzerMongoDBContextSettings> GetContextSettings()
         {
@@ -22,9 +22,9 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Respositories
 
             return mockMongoContextSettings.Object;
         }
-        private static ImageAnalysisResultService CreateSut(IMongoClient? mongoClient = null, IOptions<ImageAnalyzerMongoDBContextSettings>? mongoContextSettings = null)
+        private static ImageAnalysisResultMongoDBRepository CreateSut(IMongoClient? mongoClient = null, IOptions<ImageAnalyzerMongoDBContextSettings>? mongoContextSettings = null)
         {
-            return new ImageAnalysisResultService(
+            return new ImageAnalysisResultMongoDBRepository(
                 mongoClient ?? Mock.Of<IMongoClient>(),
                 mongoContextSettings ?? Mock.Of<IOptions<ImageAnalyzerMongoDBContextSettings>>()
             );

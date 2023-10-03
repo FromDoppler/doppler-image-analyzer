@@ -6,11 +6,11 @@ using MongoDB.Driver;
 
 namespace Doppler.ImageAnalyzer.Api.Services.Respositories
 {
-    public class ImageAnalysisResultService : IImageAnalysisResultService
+    public class ImageAnalysisResultMongoDBRepository : IImageAnalysisResultRepository
     {
         private readonly IMongoCollection<BsonDocument> _collection;
 
-        public ImageAnalysisResultService(IMongoClient mongoClient, IOptions<ImageAnalyzerMongoDBContextSettings> mongoContextSettings)
+        public ImageAnalysisResultMongoDBRepository(IMongoClient mongoClient, IOptions<ImageAnalyzerMongoDBContextSettings> mongoContextSettings)
         {
             var database = mongoClient.GetDatabase(mongoContextSettings.Value.DatabaseName);
             _collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
