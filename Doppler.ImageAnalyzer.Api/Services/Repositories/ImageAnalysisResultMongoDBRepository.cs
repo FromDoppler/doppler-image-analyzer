@@ -17,20 +17,12 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
 
         public async Task<string> SaveAsync(int statusCode, List<ImageAnalysisResponse>? imageAnalysisResultList, string? errorTitle, string? exceptionMessage)
         {
-            try
-            {
-                ObjectId _id = ObjectId.GenerateNewId();
+            ObjectId _id = ObjectId.GenerateNewId();
 
-                var imageAnalysisResultDocument = imageAnalysisResultList.SerializeToBsonDocument(_id, statusCode, errorTitle, exceptionMessage);
-                await _collection.InsertOneAsync(document: imageAnalysisResultDocument);
+            var imageAnalysisResultDocument = imageAnalysisResultList.SerializeToBsonDocument(_id, statusCode, errorTitle, exceptionMessage);
+            await _collection.InsertOneAsync(document: imageAnalysisResultDocument);
 
-                return _id.ToString();
-            }
-            catch (Exception)
-            {
-                // TODO: treat exception in the controller
-                throw;
-            }
+            return _id.ToString();
         }
     }
 }
