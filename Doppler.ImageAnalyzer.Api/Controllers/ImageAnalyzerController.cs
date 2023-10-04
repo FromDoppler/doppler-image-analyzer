@@ -9,11 +9,13 @@ namespace Doppler.ImageAnalyzer.Api.Controllers;
 public class ImageAnalyzerController : DopplerControllerBase
 {
     protected readonly ILogger<ImageAnalyzerController> _logger;
+    protected readonly IImageAnalysisResultRepository _imageAnalysisResultService;
 
-    public ImageAnalyzerController(IMediator mediator, ILogger<ImageAnalyzerController> logger)
+    public ImageAnalyzerController(IMediator mediator, ILogger<ImageAnalyzerController> logger, IImageAnalysisResultRepository imageAnalysisResultService)
         : base(mediator)
     {
         _logger = logger;
+        _imageAnalysisResultService = imageAnalysisResultService;
     }
 
     [HttpPost]
@@ -24,7 +26,9 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         LogImageAnalysisResponse(response);
 
-        return HandleResponse(mapImageAnalysisResponseList(response), "Returned image analysis");
+        var resultId = await SaveResultsAsync(response);
+
+        return HandleResponse(mapImageAnalysisResponseList(response, resultId), "Returned image analysis");
     }
 
     [HttpPost]
@@ -35,10 +39,24 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         LogImageAnalysisResponse(response);
 
-        return HandleResponse(mapImageAnalysisResponseList(response), "Returned image analysis");
+        var resultId = await SaveResultsAsync(response);
+
+        return HandleResponse(mapImageAnalysisResponseList(response, resultId), "Returned image analysis");
     }
 
-    private Response<AnalysisResultResponse> mapImageAnalysisResponseList(Response<List<ImageAnalysisResponse>> response)
+    private async Task<string> SaveResultsAsync(Response<List<ImageAnalysisResponse>> response)
+    {
+        string resultId = "";
+        if (response.IsSuccessStatusCode && response.Payload != null)
+        {
+            var imagesAnalysis = response.Payload;
+            resultId = await _imageAnalysisResultService.SaveAsync(imagesAnalysis);
+        }
+
+        return resultId;
+    }
+
+    private Response<AnalysisResultResponse> mapImageAnalysisResponseList(Response<List<ImageAnalysisResponse>> response, string resultId)
     {
         return new Response<AnalysisResultResponse>()
         {
@@ -49,7 +67,7 @@ public class ImageAnalyzerController : DopplerControllerBase
                 new AnalysisResultResponse()
                 {
                     AnalysisResult = response.Payload,
-                    AnalysisResultId = "abc", // TODO: replace harcoded AnalysisResultId by id obtained from db
+                    AnalysisResultId = resultId,
                 }
         };
     }

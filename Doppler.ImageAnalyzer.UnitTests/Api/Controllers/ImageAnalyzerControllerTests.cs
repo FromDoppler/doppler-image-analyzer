@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Doppler.ImageAnalyzer.Api.Services.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Doppler.ImageAnalyzer.UnitTests.Api.Controllers;
 
@@ -6,11 +7,13 @@ public class ImageAnalyzerControllerTests
 {
     private readonly Mock<IMediator> _mediatorMock;
     private readonly Mock<ILogger<ImageAnalyzerController>> _loggerMock;
+    private readonly Mock<IImageAnalysisResultRepository> _imageAnalysisResultRepositoryMock;
 
     public ImageAnalyzerControllerTests()
     {
         _mediatorMock = new Mock<IMediator>();
         _loggerMock = new Mock<ILogger<ImageAnalyzerController>>();
+        _imageAnalysisResultRepositoryMock = new Mock<IImageAnalysisResultRepository>();
     }
 
     [Fact]
@@ -21,7 +24,7 @@ public class ImageAnalyzerControllerTests
         _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
                      .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
 
-        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object);
+        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object, _imageAnalysisResultRepositoryMock.Object);
         var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
 
         var result = await controller.AnalyzeHtml(request, default);
@@ -39,7 +42,7 @@ public class ImageAnalyzerControllerTests
         _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
                      .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
 
-        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object);
+        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object, _imageAnalysisResultRepositoryMock.Object);
         var request = new AnalyzeHtmlRequest { HtmlToAnalize = html, AnalysisType = "ModerationContent" };
 
         var result = await controller.AnalyzeHtml(request, default);
@@ -59,7 +62,7 @@ public class ImageAnalyzerControllerTests
         _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
                      .ReturnsAsync(new Response<List<ImageAnalysisResponse>>());
 
-        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object);
+        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object, _imageAnalysisResultRepositoryMock.Object);
         var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
 
         var result = await controller.AnalyzeImageList(request, default);
@@ -78,7 +81,7 @@ public class ImageAnalyzerControllerTests
         _mediatorMock.Setup(m => m.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default))
                      .ReturnsAsync(new Response<List<ImageAnalysisResponse>> { StatusCode = HttpStatusCode.BadRequest });
 
-        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object);
+        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object, _imageAnalysisResultRepositoryMock.Object);
         var request = new AnalyzeImageListRequest { ImageUrls = imageUrls, AnalysisType = "ModerationContent" };
 
         var result = await controller.AnalyzeImageList(request, default);
