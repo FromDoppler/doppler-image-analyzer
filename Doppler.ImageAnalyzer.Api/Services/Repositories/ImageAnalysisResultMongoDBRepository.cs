@@ -15,11 +15,11 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
             _collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
         }
 
-        public async Task<string> SaveAsync(int statusCode, List<ImageAnalysisResponse>? imageAnalysisResultList, string? errorTitle, string? exceptionMessage)
+        public async Task<string> SaveAsync(List<ImageAnalysisResponse>? imageAnalysisResultList)
         {
             ObjectId _id = ObjectId.GenerateNewId();
 
-            var imageAnalysisResultDocument = imageAnalysisResultList.SerializeToBsonDocument(_id, statusCode, errorTitle, exceptionMessage);
+            var imageAnalysisResultDocument = imageAnalysisResultList.SerializeToBsonDocument(_id);
             await _collection.InsertOneAsync(document: imageAnalysisResultDocument);
 
             return _id.ToString();
