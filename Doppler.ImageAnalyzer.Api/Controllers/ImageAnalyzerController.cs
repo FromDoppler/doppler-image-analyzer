@@ -17,25 +17,41 @@ public class ImageAnalyzerController : DopplerControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Response<List<ImageAnalysisResponse>>>> AnalyzeHtml(AnalyzeHtmlRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<Response<AnalysisResultResponse>>> AnalyzeHtml(AnalyzeHtmlRequest request, CancellationToken cancellationToken)
     {
         var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = request.HtmlToAnalize, AnalysisType = request.AnalysisType };
         var response = await _mediator.Send(command, cancellationToken);
 
         LogImageAnalysisResponse(response);
 
-        return HandleResponse(response, "Returned image analysis");
+        return HandleResponse(mapImageAnalysisResponseList(response), "Returned image analysis");
     }
 
     [HttpPost]
-    public async Task<ActionResult<Response<List<ImageAnalysisResponse>>>> AnalyzeImageList(AnalyzeImageListRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<Response<AnalysisResultResponse>>> AnalyzeImageList(AnalyzeImageListRequest request, CancellationToken cancellationToken)
     {
         var command = new AnalyzeImageListCommand.Command { ImageUrls = request.ImageUrls, AnalysisType = request.AnalysisType };
         var response = await _mediator.Send(command, cancellationToken);
 
         LogImageAnalysisResponse(response);
 
-        return HandleResponse(response, "Returned image analysis");
+        return HandleResponse(mapImageAnalysisResponseList(response), "Returned image analysis");
+    }
+
+    private Response<AnalysisResultResponse> mapImageAnalysisResponseList(Response<List<ImageAnalysisResponse>> response)
+    {
+        return new Response<AnalysisResultResponse>()
+        {
+            StatusCode = response.StatusCode,
+            ValidationIssue = response.ValidationIssue,
+            Payload = response.Payload == null ?
+                null :
+                new AnalysisResultResponse()
+                {
+                    AnalysisResult = response.Payload,
+                    AnalysisResultId = "abc", // TODO: replace harcoded AnalysisResultId by id obtained from db
+                }
+        };
     }
 
     private void LogImageAnalysisResponse(Response<List<ImageAnalysisResponse>> response)
