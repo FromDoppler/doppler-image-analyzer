@@ -1,5 +1,5 @@
 using Doppler.ImageAnalyzer.Api.Logging;
-using Doppler.ImageAnalyzer.Api.Services.MongoDB;
+using Doppler.ImageAnalyzer.Api.Services.Repositories;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -13,7 +13,7 @@ builder.Services.AddDopplerSecurity();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddImageAnalyzerMongoDBContext(builder.Configuration);
+builder.Services.AddMongoDBRepositoryService(builder.Configuration);
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer",
