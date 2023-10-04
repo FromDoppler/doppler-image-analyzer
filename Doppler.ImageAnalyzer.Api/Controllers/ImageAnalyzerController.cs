@@ -1,3 +1,4 @@
+using Doppler.ImageAnalyzer.Api.Services.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,8 +25,6 @@ public class ImageAnalyzerController : DopplerControllerBase
         var command = new AnalyzeHtmlCommand.Command { HtmlToAnalize = request.HtmlToAnalize, AnalysisType = request.AnalysisType };
         var response = await _mediator.Send(command, cancellationToken);
 
-        LogImageAnalysisResponse(response);
-
         var resultId = await SaveResultsAsync(response);
 
         return HandleResponse(mapImageAnalysisResponseList(response, resultId), "Returned image analysis");
@@ -36,8 +35,6 @@ public class ImageAnalyzerController : DopplerControllerBase
     {
         var command = new AnalyzeImageListCommand.Command { ImageUrls = request.ImageUrls, AnalysisType = request.AnalysisType };
         var response = await _mediator.Send(command, cancellationToken);
-
-        LogImageAnalysisResponse(response);
 
         var resultId = await SaveResultsAsync(response);
 
@@ -51,6 +48,15 @@ public class ImageAnalyzerController : DopplerControllerBase
         {
             var imagesAnalysis = response.Payload;
             resultId = await _imageAnalysisResultService.SaveAsync(imagesAnalysis);
+        }
+        else
+        {
+            _logger.LogInformation(
+                "Analisys Response => Status Code: {AnalysisResponse_StatusCode} - Title: {AnalysisResponse_ErrorTitle} - Exception Message: {AnalysisResponse_ExceptionMessage}",
+                (int)response.StatusCode,
+                response.ValidationIssue.Title,
+                response.ValidationIssue.ExceptionMessage
+            );
         }
 
         return resultId;
@@ -70,28 +76,5 @@ public class ImageAnalyzerController : DopplerControllerBase
                     AnalysisResultId = resultId,
                 }
         };
-    }
-
-    private void LogImageAnalysisResponse(Response<List<ImageAnalysisResponse>> response)
-    {
-        if (response.IsSuccessStatusCode && response.Payload != null)
-        {
-            var imagesAnalysis = response.Payload;
-            _logger.LogInformation(
-                "Analisys Response => Status Code: {AnalysisResponse_StatusCode} - Number of Images: {AnalysisResponse_ImagesCount} - Analysis Result: {@AnalysisResponse_Result}",
-                (int)response.StatusCode,
-                imagesAnalysis.Count,
-                imagesAnalysis
-            );
-        }
-        else
-        {
-            _logger.LogInformation(
-                "Analisys Response => Status Code: {AnalysisResponse_StatusCode} - Title: {AnalysisResponse_ErrorTitle} - Exception Message: {AnalysisResponse_ExceptionMessage}",
-                (int)response.StatusCode,
-                response.ValidationIssue.Title,
-                response.ValidationIssue.ExceptionMessage
-            );
-        }
     }
 }
