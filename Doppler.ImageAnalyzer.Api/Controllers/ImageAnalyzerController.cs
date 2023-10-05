@@ -43,11 +43,19 @@ public class ImageAnalyzerController : DopplerControllerBase
 
     private async Task<string> SaveResultsAsync(Response<List<ImageAnalysisResponse>> response)
     {
-        string resultId = "";
+        string resultId = string.Empty;
+
         if (response.IsSuccessStatusCode && response.Payload != null)
         {
-            var imagesAnalysis = response.Payload;
-            resultId = await _imageAnalysisResultService.SaveAsync(imagesAnalysis);
+            try
+            {
+                var imagesAnalysis = response.Payload;
+                resultId = await _imageAnalysisResultService.SaveAsync(imagesAnalysis);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected failure saving analysis response.");
+            }
         }
         else
         {
