@@ -2,6 +2,6 @@
 {
     public interface IImageAnalysisResultRepository
     {
-        Task<string> SaveAsync(int statusCode, List<ImageAnalysisResponse>? imageAnalysisResult, string? errorTitle, string? exceptionMessage);
+        Task<string> SaveAsync(List<ImageAnalysisResponse>? imageAnalysisResult);
     }
 }

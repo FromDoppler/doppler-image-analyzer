@@ -32,7 +32,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
 
             // Act
             // Assert
-            var result = await Assert.ThrowsAsync<Exception>(() => sut.SaveAsync(200, new List<ImageAnalysisResponse>(), null, null));
+            var result = await Assert.ThrowsAsync<Exception>(() => sut.SaveAsync(new List<ImageAnalysisResponse>()));
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Doppler.ImageAnalyzer.UnitTests.Api.Services.Repositories
             var sut = CreateSut(mockMongoDatabase.Object);
 
             // Act
-            await sut.SaveAsync(200, imageAnalysisResponse, null, null);
+            await sut.SaveAsync(imageAnalysisResponse);
 
             // Assert
             mockMongoCollection.Verify(

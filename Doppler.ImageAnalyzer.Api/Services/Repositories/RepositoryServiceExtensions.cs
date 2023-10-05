@@ -30,11 +30,6 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
 
                 var imageAnalysisResult_Collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
 
-                var imageAnalysisResult_StatusCode_Index = new CreateIndexModel<BsonDocument>(
-                    Builders<BsonDocument>.IndexKeys.Ascending(ImageAnalysisResultDocumentInfo.StatusCode_PropName)
-                );
-                imageAnalysisResult_Collection.Indexes.CreateOne(imageAnalysisResult_StatusCode_Index);
-
                 var imageAnalysisResult_ImagesCount_Index = new CreateIndexModel<BsonDocument>(
                     Builders<BsonDocument>.IndexKeys.Ascending(ImageAnalysisResultDocumentInfo.ImagesCount_PropName)
                 );

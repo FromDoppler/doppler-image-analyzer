@@ -4,16 +4,13 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Entities
 {
     public static class ImageAnalysisResultEntitySerializer
     {
-        public static BsonDocument SerializeToBsonDocument(this List<ImageAnalysisResponse>? results, ObjectId _id, int statusCode, string? errorTitle, string? exceptionMessage)
+        public static BsonDocument SerializeToBsonDocument(this List<ImageAnalysisResponse>? results, ObjectId _id)
         {
             return new BsonDocument
                 {
                     { ImageAnalysisResultDocumentInfo.Id_PropName, _id },
                     { ImageAnalysisResultDocumentInfo.Result_PropName, results != null ? results.SerializeToBsonArray() : BsonNull.Value },
                     { ImageAnalysisResultDocumentInfo.ImagesCount_PropName, results != null ? results.Count : 0 },
-                    { ImageAnalysisResultDocumentInfo.StatusCode_PropName, statusCode },
-                    { ImageAnalysisResultDocumentInfo.ErrorTitle_PropName, !string.IsNullOrEmpty(errorTitle) ? errorTitle : BsonNull.Value },
-                    { ImageAnalysisResultDocumentInfo.ExceptionMessage_PropName, !string.IsNullOrEmpty(exceptionMessage) ? exceptionMessage : BsonNull.Value },
                 };
         }
 
