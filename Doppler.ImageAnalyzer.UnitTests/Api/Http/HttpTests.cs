@@ -1,7 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Http.Json;
-
-namespace Doppler.ImageAnalyzer.UnitTests.Api.Http;
+﻿namespace Doppler.ImageAnalyzer.UnitTests.Api.Http;
 
 public class HttpTests
 {
