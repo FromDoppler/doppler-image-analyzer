@@ -22,28 +22,28 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
 
             var mongoUrl = mongoUrlBuilder.ToMongoUrl();
             var mongoClient = new MongoClient(mongoUrl);
-            var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
 
-            services.AddSingleton<IMongoClient>(x =>
+            services.AddSingleton<IMongoClient>(mongoClient);
+            services.AddSingleton(x =>
             {
-                #region ImageAnalysisResult_Indexes
-
-                var imageAnalysisResult_Collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
-
-                var imageAnalysisResult_ImagesCount_Index = new CreateIndexModel<BsonDocument>(
-                    Builders<BsonDocument>.IndexKeys.Ascending(ImageAnalysisResultDocumentInfo.ImagesCount_PropName)
-                );
-                imageAnalysisResult_Collection.Indexes.CreateOne(imageAnalysisResult_ImagesCount_Index);
-
-                #endregion
-
-                return mongoClient;
+                var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
+                CreateMongoDBIndexes(database);
+                return database;
             });
-            services.AddSingleton(x => mongoClient.GetDatabase(mongoUrl.DatabaseName));
 
             services.AddSingleton<IImageAnalysisResultRepository, ImageAnalysisResultMongoDBRepository>();
 
             return services;
+        }
+
+        private static void CreateMongoDBIndexes(IMongoDatabase database)
+        {
+            var imageAnalysisResult_Collection = database.GetCollection<BsonDocument>(ImageAnalysisResultDocumentInfo.CollectionName);
+
+            var imageAnalysisResult_ImagesCount_Index = new CreateIndexModel<BsonDocument>(
+                Builders<BsonDocument>.IndexKeys.Ascending(ImageAnalysisResultDocumentInfo.ImagesCount_PropName)
+            );
+            imageAnalysisResult_Collection.Indexes.CreateOne(imageAnalysisResult_ImagesCount_Index);
         }
     }
 }
