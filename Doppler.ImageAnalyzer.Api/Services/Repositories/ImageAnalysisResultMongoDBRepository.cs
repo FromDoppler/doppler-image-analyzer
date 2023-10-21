@@ -28,7 +28,12 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
         {
             var filterBuilder = Builders<BsonDocument>.Filter;
 
-            var filter = filterBuilder.Eq(ImageAnalysisResultDocumentInfo.Id_PropName, new ObjectId(analysisResultId));
+            if (!ObjectId.TryParse(analysisResultId, out ObjectId _id))
+            {
+                return null;
+            }
+
+            var filter = filterBuilder.Eq(ImageAnalysisResultDocumentInfo.Id_PropName, _id);
 
             var analysisResultDocument = await (await _collection.FindAsync<BsonDocument>(filter)).SingleOrDefaultAsync();
 
