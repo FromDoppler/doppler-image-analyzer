@@ -1,6 +1,7 @@
 using Doppler.ImageAnalyzer.Api.Services.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Doppler.ImageAnalyzer.Api.Controllers;
 
@@ -18,6 +19,29 @@ public class ImageAnalyzerController : DopplerControllerBase
         _logger = logger;
         _imageAnalysisResultService = imageAnalysisResultService;
     }
+
+    [HttpGet("{analysisResultId}")]
+    public async Task<ActionResult<Response<AnalysisResultResponse>>> GetAnalysisResult([FromRoute] string analysisResultId)
+    {
+        List<ImageAnalysisResponse>? analysisResult;
+        try
+        {
+            analysisResult = await _imageAnalysisResultService.GetAsync(analysisResultId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected failure obtaining analysis result.");
+            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.InternalServerError, analysisResultId), "Returned image analysis result");
+        }
+
+        if (analysisResult == null)
+        {
+            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.NoContent, analysisResultId), "Returned image analysis result");
+        }
+
+        return HandleResponse(mapImageAnalysisResult(analysisResult, HttpStatusCode.OK, analysisResultId), "Returned image analysis result");
+    }
+
 
     [HttpPost]
     public async Task<ActionResult<Response<AnalysisResultResponse>>> AnalyzeHtml(AnalyzeHtmlRequest request, CancellationToken cancellationToken)
@@ -81,6 +105,21 @@ public class ImageAnalyzerController : DopplerControllerBase
                 new AnalysisResultResponse()
                 {
                     AnalysisResult = response.Payload,
+                    AnalysisResultId = resultId,
+                }
+        };
+    }
+
+    private Response<AnalysisResultResponse> mapImageAnalysisResult(List<ImageAnalysisResponse>? analysisResult, HttpStatusCode statusCode, string resultId)
+    {
+        return new Response<AnalysisResultResponse>()
+        {
+            StatusCode = statusCode,
+            Payload = analysisResult == null ?
+                null :
+                new AnalysisResultResponse()
+                {
+                    AnalysisResult = analysisResult,
                     AnalysisResultId = resultId,
                 }
         };
