@@ -31,15 +31,15 @@ public class ImageAnalyzerController : DopplerControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected failure obtaining analysis result.");
-            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.InternalServerError, analysisResultId), "Returned image analysis result");
+            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.InternalServerError, null, analysisResultId), "Returned image analysis result");
         }
 
         if (analysisResult == null)
         {
-            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.NoContent, analysisResultId), "Returned image analysis result");
+            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.NoContent, null, analysisResultId), "Returned image analysis result");
         }
 
-        return HandleResponse(mapImageAnalysisResult(analysisResult, HttpStatusCode.OK, analysisResultId), "Returned image analysis result");
+        return HandleResponse(mapImageAnalysisResult(analysisResult, HttpStatusCode.OK, null, analysisResultId), "Returned image analysis result");
     }
 
 
@@ -51,7 +51,7 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         var resultId = await SaveResultsAsync(response);
 
-        return HandleResponse(mapImageAnalysisResponseList(response, resultId), "Returned image analysis");
+        return HandleResponse(mapImageAnalysisResponseResponse(response, resultId), "Returned image analysis");
     }
 
     [HttpPost]
@@ -62,7 +62,7 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         var resultId = await SaveResultsAsync(response);
 
-        return HandleResponse(mapImageAnalysisResponseList(response, resultId), "Returned image analysis");
+        return HandleResponse(mapImageAnalysisResponseResponse(response, resultId), "Returned image analysis");
     }
 
     private async Task<string> SaveResultsAsync(Response<List<ImageAnalysisResponse>> response)
@@ -94,34 +94,30 @@ public class ImageAnalyzerController : DopplerControllerBase
         return resultId;
     }
 
-    private Response<AnalysisResultResponse> mapImageAnalysisResponseList(Response<List<ImageAnalysisResponse>> response, string resultId)
+    private Response<AnalysisResultResponse> mapImageAnalysisResponseResponse(Response<List<ImageAnalysisResponse>> response, string resultId)
     {
-        return new Response<AnalysisResultResponse>()
-        {
-            StatusCode = response.StatusCode,
-            ValidationIssue = response.ValidationIssue,
-            Payload = response.Payload == null ?
-                null :
-                new AnalysisResultResponse()
-                {
-                    AnalysisResult = response.Payload,
-                    AnalysisResultId = resultId,
-                }
-        };
+        return mapImageAnalysisResult(response.Payload, response.StatusCode, response.ValidationIssue, resultId);
     }
 
-    private Response<AnalysisResultResponse> mapImageAnalysisResult(List<ImageAnalysisResponse>? analysisResult, HttpStatusCode statusCode, string resultId)
+    private Response<AnalysisResultResponse> mapImageAnalysisResult(List<ImageAnalysisResponse>? analysisResult, HttpStatusCode statusCode, ResponseErrorDetails? validationIssue, string resultId)
     {
-        return new Response<AnalysisResultResponse>()
+        var payload = analysisResult == null ? null : new AnalysisResultResponse
+        {
+            AnalysisResult = analysisResult,
+            AnalysisResultId = resultId,
+        };
+
+        var response = new Response<AnalysisResultResponse>
         {
             StatusCode = statusCode,
-            Payload = analysisResult == null ?
-                null :
-                new AnalysisResultResponse()
-                {
-                    AnalysisResult = analysisResult,
-                    AnalysisResultId = resultId,
-                }
+            Payload = payload,
         };
+
+        if (validationIssue != null)
+        {
+            response.ValidationIssue = validationIssue;
+        }
+
+        return response;
     }
 }
