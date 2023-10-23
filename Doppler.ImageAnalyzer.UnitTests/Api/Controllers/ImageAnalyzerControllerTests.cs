@@ -190,4 +190,30 @@ public class ImageAnalyzerControllerTests
         Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 400);
         _mediatorMock.Verify(x => x.Send(It.IsAny<IRequest<Response<List<ImageAnalysisResponse>>>>(), default), Times.Once());
     }
+
+    [Fact]
+    public async Task GetAnalysisResult_ShouldLogErrorAndReturnInternalServerError_WhenRepositoryThrowException()
+    {
+        // Arrange
+        _imageAnalysisResultRepositoryMock
+            .Setup(i => i.GetAsync(It.IsAny<string>()))
+            .ThrowsAsync(new Exception());
+
+        var controller = new ImageAnalyzerController(_mediatorMock.Object, _loggerMock.Object, _imageAnalysisResultRepositoryMock.Object);
+
+        var result = await controller.GetAnalysisResult("65327ddef2788a5272cf5126");
+
+        Assert.NotNull(result);
+        Assert.True((result.Result as Microsoft.AspNetCore.Mvc.ObjectResult)!.StatusCode == 500);
+        _loggerMock.Verify(
+            x => x.Log(
+                It.Is<LogLevel>(l => l == LogLevel.Error),
+                It.IsAny<EventId>(),
+                It.Is<It.IsAnyType>((v, t) => v.ToString() == "Unexpected failure obtaining analysis result."),
+                It.IsAny<Exception>(),
+                It.Is<Func<It.IsAnyType, Exception?, string>>((v, t) => true)
+                ),
+            Times.Once
+        );
+    }
 }
