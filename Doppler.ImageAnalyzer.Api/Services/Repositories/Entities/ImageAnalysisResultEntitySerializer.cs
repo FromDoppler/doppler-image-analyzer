@@ -82,17 +82,26 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Entities
             {
                 var analysisDetailItemDocument = analysisDetailItem.AsBsonDocument;
 
-                imageAnalysisDetailResponse.IsModeration = analysisDetailItemDocument[ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_IsModeration_PropName].AsBoolean;
-                imageAnalysisDetailResponse.Label = analysisDetailItemDocument[ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Label_PropName].AsString;
-
-                var confidenceValue = analysisDetailItemDocument[ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Confidence_PropName];
-                if (confidenceValue.BsonType == BsonType.Double)
+                string isModerationFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_IsModeration_PropName;
+                if (analysisDetailItemDocument.Contains(isModerationFieldName) && !analysisDetailItemDocument[isModerationFieldName].IsBsonNull)
                 {
-                    imageAnalysisDetailResponse.Confidence = (float?)Convert.ToSingle(confidenceValue.AsDouble);
+                    imageAnalysisDetailResponse.IsModeration = analysisDetailItemDocument[isModerationFieldName].AsBoolean;
                 }
-                else
+
+                string labelFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Label_PropName;
+                if (analysisDetailItemDocument.Contains(labelFieldName) && !analysisDetailItemDocument[labelFieldName].IsBsonNull)
                 {
-                    imageAnalysisDetailResponse.Confidence = (float?)null;
+                    imageAnalysisDetailResponse.Label = analysisDetailItemDocument[labelFieldName].AsString;
+                }
+
+                string confidenceFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Confidence_PropName;
+                if (analysisDetailItemDocument.Contains(confidenceFieldName) && !analysisDetailItemDocument[confidenceFieldName].IsBsonNull)
+                {
+                    var confidenceValue = analysisDetailItemDocument[ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Confidence_PropName];
+                    if (confidenceValue.BsonType == BsonType.Double)
+                    {
+                        imageAnalysisDetailResponse.Confidence = Convert.ToSingle(confidenceValue.AsDouble);
+                    }
                 }
             }
 
