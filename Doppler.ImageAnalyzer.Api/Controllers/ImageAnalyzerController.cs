@@ -23,6 +23,7 @@ public class ImageAnalyzerController : DopplerControllerBase
     [HttpGet("{analysisResultId}")]
     public async Task<ActionResult<Response<AnalysisResultResponse>>> GetAnalysisResult([FromRoute] string analysisResultId)
     {
+        string loggingMessage = "Returned image analysis result";
         List<ImageAnalysisResponse>? analysisResult;
         try
         {
@@ -31,15 +32,35 @@ public class ImageAnalyzerController : DopplerControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected failure obtaining analysis result.");
-            return HandleResponse(mapImageAnalysisResponseList(null, HttpStatusCode.InternalServerError, null, analysisResultId), "Returned image analysis result");
+            return HandleResponse
+            (
+                mapImageAnalysisResponseList
+                (
+                    analysisResult: null,
+                    statusCode: HttpStatusCode.InternalServerError,
+                    validationIssue: null,
+                    resultId: analysisResultId
+                ),
+                loggingMessage
+            );
         }
 
         if (analysisResult == null)
         {
-            return HandleResponse(mapImageAnalysisResponseList(null, HttpStatusCode.NoContent, null, analysisResultId), "Returned image analysis result");
+            return HandleResponse
+            (
+                mapImageAnalysisResponseList
+                (
+                    analysisResult: null,
+                    HttpStatusCode.NoContent,
+                    validationIssue: null,
+                    analysisResultId
+                ),
+                loggingMessage
+            );
         }
 
-        return HandleResponse(mapImageAnalysisResponseList(analysisResult, HttpStatusCode.OK, null, analysisResultId), "Returned image analysis result");
+        return HandleResponse(mapImageAnalysisResponseList(analysisResult, HttpStatusCode.OK, validationIssue: null, analysisResultId), loggingMessage);
     }
 
 
