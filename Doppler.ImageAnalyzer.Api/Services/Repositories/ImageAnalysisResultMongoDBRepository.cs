@@ -46,7 +46,7 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories
 
             List<ImageAnalysisResponse>? analysisResult = analysisResultDocument.Contains(resultFieldName) && !analysisResultDocument[resultFieldName].IsBsonNull ?
                 analysisResultDocument[resultFieldName].AsBsonArray
-                    .Select(ImageAnalysisResultEntitySerializer.deserializeBsonValueToImageAnalysisResponse)
+                    .Select(ImageAnalysisResultEntitySerializer.DeserializeBsonValueToImageAnalysisResponse)
                     .ToList() : null;
 
             return analysisResult;

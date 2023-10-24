@@ -50,7 +50,7 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Entities
             return bsonArray;
         }
 
-        public static ImageAnalysisResponse deserializeBsonValueToImageAnalysisResponse(BsonValue resultItem)
+        public static ImageAnalysisResponse DeserializeBsonValueToImageAnalysisResponse(BsonValue resultItem)
         {
             var imageAnalysisResponse = new ImageAnalysisResponse();
 
@@ -67,14 +67,14 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Entities
                 string analysisDetailFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_PropName;
                 imageAnalysisResponse.AnalysisDetail = resultItemDocument.Contains(analysisDetailFieldName) && !resultItemDocument[analysisDetailFieldName].IsBsonNull ?
                     resultItemDocument[analysisDetailFieldName].AsBsonArray
-                        .Select(deserializeBsonValueToImageAnalysisDetailResponse)
+                        .Select(DeserializeBsonValueToImageAnalysisDetailResponse)
                         .ToList() : null;
             }
 
             return imageAnalysisResponse;
         }
 
-        private static ImageAnalysisDetailResponse deserializeBsonValueToImageAnalysisDetailResponse(BsonValue analysisDetailItem)
+        private static ImageAnalysisDetailResponse DeserializeBsonValueToImageAnalysisDetailResponse(BsonValue analysisDetailItem)
         {
             var imageAnalysisDetailResponse = new ImageAnalysisDetailResponse();
 
