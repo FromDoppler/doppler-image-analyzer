@@ -31,15 +31,15 @@ public class ImageAnalyzerController : DopplerControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected failure obtaining analysis result.");
-            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.InternalServerError, null, analysisResultId), "Returned image analysis result");
+            return HandleResponse(mapImageAnalysisResponseList(null, HttpStatusCode.InternalServerError, null, analysisResultId), "Returned image analysis result");
         }
 
         if (analysisResult == null)
         {
-            return HandleResponse(mapImageAnalysisResult(null, HttpStatusCode.NoContent, null, analysisResultId), "Returned image analysis result");
+            return HandleResponse(mapImageAnalysisResponseList(null, HttpStatusCode.NoContent, null, analysisResultId), "Returned image analysis result");
         }
 
-        return HandleResponse(mapImageAnalysisResult(analysisResult, HttpStatusCode.OK, null, analysisResultId), "Returned image analysis result");
+        return HandleResponse(mapImageAnalysisResponseList(analysisResult, HttpStatusCode.OK, null, analysisResultId), "Returned image analysis result");
     }
 
 
@@ -51,7 +51,7 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         var resultId = await SaveResultsAsync(response);
 
-        return HandleResponse(mapImageAnalysisResponseResponse(response, resultId), "Returned image analysis");
+        return HandleResponse(mapResponseOfImageAnalysisResponseList(response, resultId), "Returned image analysis");
     }
 
     [HttpPost]
@@ -62,7 +62,7 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         var resultId = await SaveResultsAsync(response);
 
-        return HandleResponse(mapImageAnalysisResponseResponse(response, resultId), "Returned image analysis");
+        return HandleResponse(mapResponseOfImageAnalysisResponseList(response, resultId), "Returned image analysis");
     }
 
     private async Task<string> SaveResultsAsync(Response<List<ImageAnalysisResponse>> response)
@@ -94,12 +94,12 @@ public class ImageAnalyzerController : DopplerControllerBase
         return resultId;
     }
 
-    private Response<AnalysisResultResponse> mapImageAnalysisResponseResponse(Response<List<ImageAnalysisResponse>> response, string resultId)
+    private Response<AnalysisResultResponse> mapResponseOfImageAnalysisResponseList(Response<List<ImageAnalysisResponse>> response, string resultId)
     {
-        return mapImageAnalysisResult(response.Payload, response.StatusCode, response.ValidationIssue, resultId);
+        return mapImageAnalysisResponseList(response.Payload, response.StatusCode, response.ValidationIssue, resultId);
     }
 
-    private Response<AnalysisResultResponse> mapImageAnalysisResult(List<ImageAnalysisResponse>? analysisResult, HttpStatusCode statusCode, ResponseErrorDetails? validationIssue, string resultId)
+    private Response<AnalysisResultResponse> mapImageAnalysisResponseList(List<ImageAnalysisResponse>? analysisResult, HttpStatusCode statusCode, ResponseErrorDetails? validationIssue, string resultId)
     {
         var payload = analysisResult == null ? null : new AnalysisResultResponse
         {
