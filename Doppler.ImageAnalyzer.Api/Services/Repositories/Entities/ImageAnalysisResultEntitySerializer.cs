@@ -49,5 +49,63 @@ namespace Doppler.ImageAnalyzer.Api.Services.Repositories.Entities
 
             return bsonArray;
         }
+
+        public static ImageAnalysisResponse DeserializeBsonValueToImageAnalysisResponse(BsonValue resultItem)
+        {
+            var imageAnalysisResponse = new ImageAnalysisResponse();
+
+            if (resultItem.IsBsonDocument)
+            {
+                var resultItemDocument = resultItem.AsBsonDocument;
+
+                string resultFieldName = ImageAnalysisResultDocumentInfo.Result_ImageUrl_PropName;
+                if (resultItemDocument.Contains(resultFieldName) && !resultItemDocument[resultFieldName].IsBsonNull)
+                {
+                    imageAnalysisResponse.ImageUrl = resultItemDocument[resultFieldName].AsString;
+                }
+
+                string analysisDetailFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_PropName;
+                imageAnalysisResponse.AnalysisDetail = resultItemDocument.Contains(analysisDetailFieldName) && !resultItemDocument[analysisDetailFieldName].IsBsonNull ?
+                    resultItemDocument[analysisDetailFieldName].AsBsonArray
+                        .Select(DeserializeBsonValueToImageAnalysisDetailResponse)
+                        .ToList() : null;
+            }
+
+            return imageAnalysisResponse;
+        }
+
+        private static ImageAnalysisDetailResponse DeserializeBsonValueToImageAnalysisDetailResponse(BsonValue analysisDetailItem)
+        {
+            var imageAnalysisDetailResponse = new ImageAnalysisDetailResponse();
+
+            if (analysisDetailItem.IsBsonDocument)
+            {
+                var analysisDetailItemDocument = analysisDetailItem.AsBsonDocument;
+
+                string isModerationFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_IsModeration_PropName;
+                if (analysisDetailItemDocument.Contains(isModerationFieldName) && !analysisDetailItemDocument[isModerationFieldName].IsBsonNull)
+                {
+                    imageAnalysisDetailResponse.IsModeration = analysisDetailItemDocument[isModerationFieldName].AsBoolean;
+                }
+
+                string labelFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Label_PropName;
+                if (analysisDetailItemDocument.Contains(labelFieldName) && !analysisDetailItemDocument[labelFieldName].IsBsonNull)
+                {
+                    imageAnalysisDetailResponse.Label = analysisDetailItemDocument[labelFieldName].AsString;
+                }
+
+                string confidenceFieldName = ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Confidence_PropName;
+                if (analysisDetailItemDocument.Contains(confidenceFieldName) && !analysisDetailItemDocument[confidenceFieldName].IsBsonNull)
+                {
+                    var confidenceValue = analysisDetailItemDocument[ImageAnalysisResultDocumentInfo.Result_AnalysisDetail_Confidence_PropName];
+                    if (confidenceValue.BsonType == BsonType.Double)
+                    {
+                        imageAnalysisDetailResponse.Confidence = Convert.ToSingle(confidenceValue.AsDouble);
+                    }
+                }
+            }
+
+            return imageAnalysisDetailResponse;
+        }
     }
 }

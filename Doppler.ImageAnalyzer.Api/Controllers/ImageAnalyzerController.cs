@@ -1,6 +1,7 @@
 using Doppler.ImageAnalyzer.Api.Services.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Doppler.ImageAnalyzer.Api.Controllers;
 
@@ -19,6 +20,50 @@ public class ImageAnalyzerController : DopplerControllerBase
         _imageAnalysisResultService = imageAnalysisResultService;
     }
 
+    [HttpGet("{analysisResultId}")]
+    public async Task<ActionResult<Response<AnalysisResultResponse>>> GetAnalysisResult([FromRoute] string analysisResultId)
+    {
+        string loggingMessage = "Returned image analysis result";
+        List<ImageAnalysisResponse>? analysisResult;
+        try
+        {
+            analysisResult = await _imageAnalysisResultService.GetAsync(analysisResultId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected failure obtaining analysis result.");
+            return HandleResponse
+            (
+                mapImageAnalysisResponseList
+                (
+                    analysisResult: null,
+                    statusCode: HttpStatusCode.InternalServerError,
+                    validationIssue: null,
+                    resultId: analysisResultId
+                ),
+                loggingMessage
+            );
+        }
+
+        if (analysisResult == null)
+        {
+            return HandleResponse
+            (
+                mapImageAnalysisResponseList
+                (
+                    analysisResult: null,
+                    HttpStatusCode.NoContent,
+                    validationIssue: null,
+                    analysisResultId
+                ),
+                loggingMessage
+            );
+        }
+
+        return HandleResponse(mapImageAnalysisResponseList(analysisResult, HttpStatusCode.OK, validationIssue: null, analysisResultId), loggingMessage);
+    }
+
+
     [HttpPost]
     public async Task<ActionResult<Response<AnalysisResultResponse>>> AnalyzeHtml(AnalyzeHtmlRequest request, CancellationToken cancellationToken)
     {
@@ -27,7 +72,7 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         var resultId = await SaveResultsAsync(response);
 
-        return HandleResponse(mapImageAnalysisResponseList(response, resultId), "Returned image analysis");
+        return HandleResponse(mapResponseOfImageAnalysisResponseList(response, resultId), "Returned image analysis");
     }
 
     [HttpPost]
@@ -38,7 +83,7 @@ public class ImageAnalyzerController : DopplerControllerBase
 
         var resultId = await SaveResultsAsync(response);
 
-        return HandleResponse(mapImageAnalysisResponseList(response, resultId), "Returned image analysis");
+        return HandleResponse(mapResponseOfImageAnalysisResponseList(response, resultId), "Returned image analysis");
     }
 
     private async Task<string> SaveResultsAsync(Response<List<ImageAnalysisResponse>> response)
@@ -70,19 +115,30 @@ public class ImageAnalyzerController : DopplerControllerBase
         return resultId;
     }
 
-    private Response<AnalysisResultResponse> mapImageAnalysisResponseList(Response<List<ImageAnalysisResponse>> response, string resultId)
+    private Response<AnalysisResultResponse> mapResponseOfImageAnalysisResponseList(Response<List<ImageAnalysisResponse>> response, string resultId)
     {
-        return new Response<AnalysisResultResponse>()
+        return mapImageAnalysisResponseList(response.Payload, response.StatusCode, response.ValidationIssue, resultId);
+    }
+
+    private Response<AnalysisResultResponse> mapImageAnalysisResponseList(List<ImageAnalysisResponse>? analysisResult, HttpStatusCode statusCode, ResponseErrorDetails? validationIssue, string resultId)
+    {
+        var payload = analysisResult == null ? null : new AnalysisResultResponse
         {
-            StatusCode = response.StatusCode,
-            ValidationIssue = response.ValidationIssue,
-            Payload = response.Payload == null ?
-                null :
-                new AnalysisResultResponse()
-                {
-                    AnalysisResult = response.Payload,
-                    AnalysisResultId = resultId,
-                }
+            AnalysisResult = analysisResult,
+            AnalysisResultId = resultId,
         };
+
+        var response = new Response<AnalysisResultResponse>
+        {
+            StatusCode = statusCode,
+            Payload = payload,
+        };
+
+        if (validationIssue != null)
+        {
+            response.ValidationIssue = validationIssue;
+        }
+
+        return response;
     }
 }
