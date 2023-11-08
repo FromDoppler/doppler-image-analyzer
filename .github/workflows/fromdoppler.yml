@@ -19,4 +19,4 @@ jobs:
     secrets: inherit
     with:
       dockerfile-path: "Doppler.ImageAnalyzer.Api/Dockerfile"
-      dockerhub-image-name: "doppler-image-analyzer"
+      docker-image-name: "doppler-image-analyzer"
