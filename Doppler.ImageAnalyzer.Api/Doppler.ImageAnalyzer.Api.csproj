@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Rekognition" Version="3.7.400.67" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.410.9" />
+    <PackageReference Include="AWSSDK.Rekognition" Version="3.7.400.68" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.410.10" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.20" />
